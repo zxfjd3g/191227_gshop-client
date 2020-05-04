@@ -135,7 +135,7 @@
 				可以: 可以将query或且params参数映射成props传递给路由组件对象
 				实现: props: route=>({keyword1:route.params.keyword, keyword2: route.query.keyword })
 
-		8). 面试问题5: 
+		8). 面试问题5(非常重要)
 				描述: 编程式路由跳转到当前路由(参数不变), 会抛出NavigationDuplicated的警告错误
 
 				面试问题: 在做项目时有没有遇到比较难的问题?
