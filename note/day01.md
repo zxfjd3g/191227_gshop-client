@@ -83,5 +83,13 @@
 				中: router-view
 				下: Footer
 		3). 定义一级路由组件: Home/Search/Register/Login
-		4). 创建路由器, 定义路由, 配置路由器
-	
+		4). 创建路由器, 配置路由, 配置路由器
+
+
+## 实现多个路由公用的界面, 在部分路由组件上是隐藏
+		1). 给Login/Register路由添加meta配置: 
+				meta: {
+					isHideFooter: true
+				}
+		2). 在组件中通过v-show控制显示/隐藏: 
+				<Footer v-show="!$route.meta.isHideFooter">

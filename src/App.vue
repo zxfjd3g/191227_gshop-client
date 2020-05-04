@@ -5,7 +5,8 @@
     <!-- 在此显示当前路由组件 -->
     <router-view></router-view>
 
-    <Footer/> 
+    <!-- <Footer v-show="$route.path!=='/register' && $route.path!=='/login'"/>  -->
+    <Footer v-show="!$route.meta.isHideFooter"/>
   </div>
 </template>
 
