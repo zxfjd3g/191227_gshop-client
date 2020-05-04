@@ -33,7 +33,7 @@
       <div class="searchArea">
         <form action="###" class="searchForm">
           <input type="text" id="autocomplete" class="input-error input-xxlarge" v-model="keyword"/>
-          <button class="sui-btn btn-xlarge btn-danger" type="button" @click="search">搜索</button>
+          <button class="sui-btn btn-xlarge btn-danger" @click.prevent="search">搜索</button>
         </form>
       </div>
     </div>
@@ -108,18 +108,26 @@
           params: { keyword: keyword==='' ? undefined : keyword },
           query: { keyword2: keyword.toUpperCase() }
         }, undefined, () => {}) */
+        
         /* 
         this.$router.push({
           name: 'search', 
           params: { keyword: keyword==='' ? undefined : keyword },
           query: { keyword2: keyword.toUpperCase() }
-        }).catch(() => {}) */
+        }).catch(() => {}) 
+        */
 
-        this.$router.replace({ // push是重写后的方法
+        /* this.$router.replace({ // push是重写后的方法
           name: 'search', 
           params: { keyword: keyword==='' ? undefined : keyword },
           query: { keyword2: keyword.toUpperCase() }
-        })
+        }) */
+
+        this.$router.push({ // push是重写后的方法
+          name: 'search', 
+          params: { keyword: keyword==='' ? undefined : keyword },
+          query: { keyword2: keyword.toUpperCase() }
+        }).then(() => {console.log('跳转成功的回调执行')})
       }
     }
   }
