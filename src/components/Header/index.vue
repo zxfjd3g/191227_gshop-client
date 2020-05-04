@@ -32,7 +32,7 @@
       </h1>
       <div class="searchArea">
         <form action="###" class="searchForm">
-          <input type="text" id="autocomplete" class="input-error input-xxlarge" />
+          <input type="text" id="autocomplete" class="input-error input-xxlarge" v-model="keyword"/>
           <button class="sui-btn btn-xlarge btn-danger" type="button" @click="search">搜索</button>
         </form>
       </div>
@@ -45,10 +45,45 @@
   export default {
     name: 'Header',
 
+    data () {
+      return {
+        keyword: 'atguigu'
+      }
+    },
+
     methods: {
       search () {
         // 编程式路由导航(跳转)
-        this.$router.push('/search')
+          // 字符串模式
+        // this.$router.push(`/search/${this.keyword}?keyword2=${this.keyword.toUpperCase()}`)
+          // 对象模式  (在开发中用得比较多)
+        const keyword = this.keyword
+        // if (keyword==='') {
+        //    this.$router.push('/search')
+        // } else {
+        //   this.$router.push(`/search/${keyword}?keyword2=${keyword.toUpperCase()}`)
+        // }
+
+        // 对象写法1:
+        /* if (keyword==='') {
+          this.$router.push({
+            name: 'search'
+          })
+        } else {
+          this.$router.push({
+            name: 'search', 
+            params: { keyword: keyword },
+            query: { keyword2: keyword.toUpperCase() }
+          })
+        } */
+
+        // 对象写法2:
+        this.$router.push({
+          name: 'search', 
+          params: { keyword: keyword==='' ? undefined : keyword },
+          query: { keyword2: keyword.toUpperCase() }
+        })
+        
       }
     }
   }
