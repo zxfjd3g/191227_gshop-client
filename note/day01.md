@@ -148,10 +148,10 @@
 						解决2: 修正Vue原型上的push和replace方法 (优秀)
 
 ## 解决在二层及以上的路由路径上刷新, 丢失reset样式的问题
-		原因: 
+		1). 原因: 
 				获取页面的路径:　http://localhost:8081/search/atguigu?keyword2=ATGUIGU
 				页面中引入reset: <link rel="stylesheet" href="./css/reset.css"> 
 				请求reset的路径: http://localhost:8081/search/css/reset.css ==>　路径不对
-		解决： 
+		2). 解决： 
 				<link rel="stylesheet" href="/css/reset.css">
 				请求时: http://localhost:8081/css/reset.css
