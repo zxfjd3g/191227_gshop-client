@@ -78,12 +78,48 @@
         } */
 
         // 对象写法2:
-        this.$router.push({
+        /* this.$router.push({
           name: 'search', 
           params: { keyword: keyword==='' ? undefined : keyword },
           query: { keyword2: keyword.toUpperCase() }
         })
+        */
         
+        
+        /* 
+        问题: 编程式路由跳转到当前路由(参数不变), 会抛出NavigationDuplicated的警告错误
+        router.push(location, onComplete?, onAbort?): 如果直接指定了回调函数, push方法没有返回值
+        router.push(location).then(onComplete).catch(onAbort)
+            如果没有直接指定回调函数, push方法返回值为promise
+            如果指定的是当前路由路径且参数数据不变化, push内部就会抛出一个失败的promise
+        */
+       /* 
+       解决方法1: 在进行路由跳转时指定成功/失败的回调函数, 也可以catch()处理抛出的错误promise
+       */
+        /* 
+        this.$router.push({
+          name: 'search', 
+          params: { keyword: keyword==='' ? undefined : keyword },
+          query: { keyword2: keyword.toUpperCase() }
+        }, () => {}) */
+        /* 
+        this.$router.push({
+          name: 'search', 
+          params: { keyword: keyword==='' ? undefined : keyword },
+          query: { keyword2: keyword.toUpperCase() }
+        }, undefined, () => {}) */
+        /* 
+        this.$router.push({
+          name: 'search', 
+          params: { keyword: keyword==='' ? undefined : keyword },
+          query: { keyword2: keyword.toUpperCase() }
+        }).catch(() => {}) */
+
+        this.$router.replace({ // push是重写后的方法
+          name: 'search', 
+          params: { keyword: keyword==='' ? undefined : keyword },
+          query: { keyword2: keyword.toUpperCase() }
+        })
       }
     }
   }

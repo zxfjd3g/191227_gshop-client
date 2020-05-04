@@ -97,7 +97,7 @@
 		2). 在组件中通过v-show控制显示/隐藏: 
 				<Footer v-show="!$route.meta.isHideFooter">
 
-## 2.6.5.路由跳转与传参相关问题
+## 路由跳转与传参相关问题
 		1). 跳转路由的2种基本方式
 				声明式: <router-link to="" replace>
 				编程式: this.$router.push()/replace()
@@ -120,7 +120,6 @@
 						params只能与name组合使用
 						query可以与name或者path组合使用
 
-
 		4). 面试问题1: 指定params参数时可不可以用path和params配置的组合?
 				不可以用path和params配置的组合, 只能用name和params配置的组合
 				query配置可以与path或name进行组合使用
@@ -136,9 +135,23 @@
 				可以: 可以将query或且params参数映射成props传递给路由组件对象
 				实现: props: route=>({keyword1:route.params.keyword, keyword2: route.query.keyword })
 
-		3)面试问题1: 
-		描述: 编程式路由跳转到当前路由(参数不变), 会抛出NavigationDuplicated的警告错误
-				解决1: 在跳转时指定成功或失败的回调函数, 通过catch处理错误
-		解决2: 修正Vue原型上的push和replace方法 (优秀)
+		8). 面试问题5: 
+				描述: 编程式路由跳转到当前路由(参数不变), 会抛出NavigationDuplicated的警告错误
 
-		
+				面试问题: 在做项目时有没有遇到比较难的问题?
+				我的问题: 
+						我在上一个项目时没有问题, 后面再做一个新的项目时就有了问题
+				原因分析: 
+						vue-router3.1.0之后, 引入了push()的promise的语法, 如果没有通过参数指定回调函数就返回一个promise来指定成功/失败的回调, 且内部会判断如果要跳转的路径和参数都没有变化, 会抛出一个失败的promise
+				解决办法:
+						解决1: 在跳转时指定成功或失败的回调函数, 通过catch处理错误
+						解决2: 修正Vue原型上的push和replace方法 (优秀)
+
+## 解决在二层及以上的路由路径上刷新, 丢失reset样式的问题
+		原因: 
+				获取页面的路径:　http://localhost:8081/search/atguigu?keyword2=ATGUIGU
+				页面中引入reset: <link rel="stylesheet" href="./css/reset.css"> 
+				请求reset的路径: http://localhost:8081/search/css/reset.css ==>　路径不对
+		解决： 
+				<link rel="stylesheet" href="/css/reset.css">
+				请求时: http://localhost:8081/css/reset.css
