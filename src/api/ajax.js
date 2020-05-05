@@ -11,11 +11,14 @@ import axios from 'axios'
 import NProgress from 'nprogress' // 加载nprogress包中的nprogress.js  内部配置了"main": "nprogress.js"
 import 'nprogress/nprogress.css' // 加载nprogress包中的nprogress.css
 
+// 配置不显示右上角的旋转进度条, 只显示水平进度条
+NProgress.configure({ showSpinner: false }) 
 
 /* 1. 配置通用的基础路径和超时 */
 // 创建一个新axios(Axios的功能上实例)函数: 功能与axios类似(可以作为函数和对象发请求)
 const instance = axios.create({
-  baseURL: '/api',  // 具体请求就不用再写/api
+  // baseURL: 'http://182.92.128.115/api',  // 前提是后台允许ajax跨域
+  baseURL: '/api', // 由代理服务器转发到http://182.92.128.115/api
   timeout: 15000, // 指定处理请求超时时间
 })
 
@@ -54,8 +57,8 @@ instance.interceptors.response.use(
   }
 )
 
-
-return instance
+// 向外暴露封装好的instance
+export default instance
 
 /* 
 发ajax请求

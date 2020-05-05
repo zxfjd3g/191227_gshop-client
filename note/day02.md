@@ -27,3 +27,14 @@
         2. 显示请求进度条
         3. 成功返回的数据不再是response, 而直接是响应体数据response.data
         4. 统一处理请求错误, 具体请求也可以选择处理或不处理
+
+
+
+axios请求配置的地址: /api/product/getBaseCategoryList'
+当前发请求所在的地址:　http://localhost:8080/
+最终ajax请求的地址: http://localhost:8080/api/product/getBaseCategoryList
+结果: 请求404
+
+正确的接口地址: http://182.92.128.115/api/product/getBaseCategoryList'
+解决: 
+    axios请求配置的地址: http://182.92.128.115/api/product/getBaseCategoryList'
