@@ -30,7 +30,7 @@ export default new Vuex.Store({
   mutations,
   actions,
   getters,
-  modules: {
+  modules: {// 注册vuex的多个子模块
     home,
     user
   }

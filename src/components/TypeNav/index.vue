@@ -1692,8 +1692,59 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex'
   export default {
     name: 'TypeNav',
+
+    computed: {
+      /* baseCategoryList () {
+        return this.$store.state.home.baseCategoryList
+      } */
+      
+      /* 
+      ...mapState(['baseCategoryList']),
+      baseCategoryList () {
+        return this.$store.state.baseCategoryList
+      } 
+      */
+
+      // vuex单模块, 计算属性名与state中对应的属性名一致的情况
+      /* 
+      ...mapState(['baseCategoryList', 'xxx'])
+      ...{
+        baseCategoryList () {
+          return this.$store.state['baseCategoryList']
+        },
+        xxx () {
+          return this.$store.state['xxx']
+        }      
+      }
+      */
+
+     // vuex单模块, 计算属性名与总state中对应的属性名不一样的情况
+     /* 
+     ...mapState({
+       categoryList: 'baseCategoryList',
+       xxx2: 'xxx'
+     }) */
+
+      // vuex多模块
+      // 不利用mapState
+      /* baseCategoryList () {
+        return this.$store.state.home.baseCategoryList
+      } */
+      
+      ...mapState({
+        // 计算属性值由vuex内部调用此回调函数(传入总state)得到返回值作为属性值
+        // state: store的总状态
+        baseCategoryList: state => state.home.baseCategoryList
+      })
+    },
+
+    mounted () {
+      // 通过异步action获取异步获取数据到vuex的state中
+      this.$store.dispatch('getBaseCategoryList')
+    }
   }
 </script>
 
