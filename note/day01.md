@@ -85,7 +85,12 @@
 		3). 定义一级路由组件: Home/Search/Register/Login
 		4). 创建路由器, 配置路由, 配置路由器
 
+		5). 组件中路由相关的2个对象 (面试问题)
+				$router: 路由器对象, 包含一些用于路由跳转的方法: push()/replace()/back()
+				$route: 当前路由信息对象, 包含当前路由相关数据的对象: path/name/query/params/meta
+
 ## Header组件: 2种路由导航
+
 		1). 声明式: <router-link to="/xxx">
 		2). 编程式: $router.push/replace('/xxx')
 
@@ -108,7 +113,7 @@
 		
 		3). 携带参数的2种方式
 				字符串方式: 将参数手动拼接到path中
-						`/search/${this.keyword}?keyword2=${this.keyword.toUpperCase()}`
+						push(`/search/${this.keyword}?keyword2=${this.keyword.toUpperCase()}`)
 				对象方式: (在开发中用得比较多)
 						this.$router.push({
 							name: 'search', 
@@ -146,7 +151,7 @@
 						vue-router3.1.0之后, 引入了push()的promise的语法, 如果没有通过参数指定回调函数就返回一个promise来指定成功/失败的回调, 且内部会判断如果要跳转的路径和参数都没有变化, 会抛出一个失败的promise
 				解决办法:
 						解决1: 在跳转时指定成功或失败的回调函数, 通过catch处理错误
-						解决2: 修正Vue原型上的push和replace方法 (优秀)
+						解决2: 修正(重新定义)Vue原型上的push和replace方法 (优秀)
 				说明:
 						声明式路由跳转之所有没有问题, 是默认传入的成功的空回调函数
 
