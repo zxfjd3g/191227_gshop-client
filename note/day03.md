@@ -52,8 +52,26 @@
     解决: 将dispatch发请求的代码放在App的mounted中执行
 
 ## 合并分类query参数与搜索的关键字params参数
-    问题: 根据分类搜索时, 会丢失搜索关键字params参数
-          根据搜索关键字搜索时, 会丢失分类的query参数
+    问题: 
+        根据分类搜索时, 会丢失搜索关键字params参数
+        根据搜索关键字搜索时, 会丢失分类的query参数
     解决:
         根据分类搜索时, 也携带搜索关键字params参数
         根据搜索关键字搜索时, 也携带上分类的query参数
+
+## Mock接口数据
+    问题: 首页只有分类的接口, 其它数据接口还没有写好
+    解决: 需要我们前台工程自己在前台mock数据
+
+## 理解JSON数据结构
+    a.结构: 名称, 数据类型
+    b.value
+    c.value可以变, 但结构不要变
+
+## 使用mockjs来模拟接口数据
+    下载mockjs
+    引入mockjs得到Mock
+    mock接口: Mock.mock('/mock/xxx', {code: 200, data: banners/floors})
+    mockAjax: 指定baseURL为/mock
+    api/index.js: reqBanners = () => mockAjax('/banners')
+    在组件中调用测试: reqBanners()

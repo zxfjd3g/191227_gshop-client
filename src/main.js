@@ -7,6 +7,7 @@ import App from '@/App'
 import router from './router'
 import store from './store'
 import TypeNav from '@/components/TypeNav'
+import './mock/mockServer'
 
 Vue.config.productionTip = false // 去掉不是生产环境的提示
 

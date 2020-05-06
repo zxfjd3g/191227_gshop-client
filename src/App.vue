@@ -14,6 +14,7 @@
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 // import {reqBaseCategoryList, reqLogin} from '@/api'
+import { reqFloors } from '@/api'
 
 export default {
   name: 'App',
@@ -26,6 +27,10 @@ export default {
     // console.log('result2', result2)
 
     // console.log(this.$store.state)
+
+    // 测试调用mock接口对应的接口请求函数
+    const result = await reqFloors()
+    console.log('mock result ', result)
     
     // 通过异步action获取异步获取数据到vuex的state中
     this.$store.dispatch('getBaseCategoryList')
