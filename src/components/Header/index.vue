@@ -57,7 +57,7 @@
           // 字符串模式
         // this.$router.push(`/search/${this.keyword}?keyword2=${this.keyword.toUpperCase()}`)
           // 对象模式  (在开发中用得比较多)
-        const keyword = this.keyword
+        // const keyword = this.keyword
         // if (keyword==='') {
         //    this.$router.push('/search')
         // } else {
@@ -123,11 +123,22 @@
           query: { keyword2: keyword.toUpperCase() }
         }) */
 
-        this.$router.push({ // push是重写后的方法
+        const keyword = this.keyword
+
+        const location = { // push是重写后的方法
           name: 'search', 
-          params: { keyword: keyword==='' ? undefined : keyword },
-          query: { keyword2: keyword.toUpperCase() }
-        }).then(() => {console.log('跳转成功的回调执行')})
+        }
+        // 如果keyword有值, 指定params
+        if (keyword) {
+          location.params = {keyword}
+        }
+
+        // 同时还要携带当前原本的query
+        const {query} = this.$route
+        location.query = query
+
+        // 跳转到Search
+        this.$router.push(location)
       }
     }
   }

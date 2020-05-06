@@ -16,7 +16,7 @@
     解决: 使用lodash的throttle函数进行节流处理, 限制更新的次数
 
 ## 优化减小打包文件: 对lodash库实现按需引入 
-    import _ from 'lodash'  // 引入整体lodash
+    import _ from 'lodash'  // 引入整体lodash  ==> 打包了没用的工具函数, 打包文件变大
     import throttle from 'lodash/throttle'  // 只引入我需要的工具函数   打包文件减少1.4M
 
 ## 解决快速移出后可能显示第一个分类的子分类列表的bug
@@ -36,7 +36,24 @@
     在标签中指定自定义属性: <a data-categoryName="abc" data-category1Id="3">
     在事件回调函数中读取自定义属性数据: const {categoryname, category1id} = aEle.dataset
 
-9)控制一级列表的显示与隐藏
-10)一级列表显示隐藏的过渡效果
-11)优化请求执行的位置, 减少请求次数
-12)合并分类query参数与搜索的关键字params参数
+## 控制一级列表的显示与隐藏
+    标识状态数据: isShowFirst
+    在离开时: 如果当前不是首页隐藏 isShowFirst = false
+    在进入时: 显示一级列表 isShowFirst = true
+
+## 一级列表显示隐藏的过渡效果
+    用<trasition name="xxx">包含显示隐藏的标签
+    在特定类名下指定过渡样式
+    在特定类名下指定隐藏时样式
+
+## 优化请求执行的位置, 减少请求次数
+    问题: 在首页与搜索页进行路由跳转时, 总会重新请求分类列表    没有必要, 只要一次就可以了
+    原因: 首页和搜索页有各自的TypeNav标签对象, 跳转时都是重新创建的, 而我们是在mounted中发请求
+    解决: 将dispatch发请求的代码放在App的mounted中执行
+
+## 合并分类query参数与搜索的关键字params参数
+    问题: 根据分类搜索时, 会丢失搜索关键字params参数
+          根据搜索关键字搜索时, 会丢失分类的query参数
+    解决:
+        根据分类搜索时, 也携带搜索关键字params参数
+        根据搜索关键字搜索时, 也携带上分类的query参数

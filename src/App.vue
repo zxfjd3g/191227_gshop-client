@@ -25,9 +25,10 @@ export default {
     // const result2 = await reqLogin('13700000000', '111111')
     // console.log('result2', result2)
 
-    console.log(this.$store.state)
-    // 测试通过异步action获取异步获取数据到vuex的state中
-    // this.$store.dispatch('getBaseCategoryList')
+    // console.log(this.$store.state)
+    
+    // 通过异步action获取异步获取数据到vuex的state中
+    this.$store.dispatch('getBaseCategoryList')
   },
 
   components: {
