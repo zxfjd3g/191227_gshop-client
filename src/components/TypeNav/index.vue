@@ -1,7 +1,36 @@
 <template>
   <div class="type-nav">
     <div class="container">
-      <h2 class="all">全部商品分类</h2>
+      
+      <div @mouseleave="currentIndex=-2" @mouseenter="currentIndex=-1">
+        <h2 class="all">全部商品分类</h2>
+        <div class="sort">
+          <div class="all-sort-list2">
+            
+            <div class="item" v-for="(c1, index) in categoryList" :key="c1.categoryId" 
+              :class="{item_on: index===currentIndex}" @mouseenter="showSubCategorys(index)">
+              <h3>
+                <a href="">{{c1.categoryName}}</a>
+              </h3>
+              <div class="item-list clearfix">
+                <div class="subitem">
+                  <dl class="fore" v-for="c2 in c1.categoryChild" :key="c2.categoryId">
+                    <dt>
+                      <a href="">{{c2.categoryName}}</a>
+                    </dt>
+                    <dd>
+                      <em v-for="c3 in c2.categoryChild" :key="c3.categoryId">
+                        <a href="">{{c3.categoryName}}</a>
+                      </em>
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <nav class="nav">
         <a href="###">服装城</a>
         <a href="###">美妆馆</a>
@@ -12,38 +41,23 @@
         <a href="###">有趣</a>
         <a href="###">秒杀</a>
       </nav>
-      <div class="sort">
-        <div class="all-sort-list2">
-          
-          <div class="item" v-for="c1 in categoryList" :key="c1.categoryId">
-            <h3>
-              <a href="">{{c1.categoryName}}</a>
-            </h3>
-            <div class="item-list clearfix">
-              <div class="subitem">
-                <dl class="fore" v-for="c2 in c1.categoryChild" :key="c2.categoryId">
-                  <dt>
-                    <a href="">{{c2.categoryName}}</a>
-                  </dt>
-                  <dd>
-                    <em v-for="c3 in c2.categoryChild" :key="c3.categoryId">
-                      <a href="">{{c3.categoryName}}</a>
-                    </em>
-                  </dd>
-                </dl>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </template>
 
 <script>
+  // import _ from 'lodash'  // 引入整体lodash
+  import throttle from 'lodash/throttle'  // 只引入我需要的工具函数   打包文件减少1.4M
   import { mapState } from 'vuex'
   export default {
     name: 'TypeNav',
+
+    data () {
+      return {
+        // -2: 代表完全在整个div外面  -1: 代表在大的div中  >=0 代表在分类项小div中
+        currentIndex: -2 // 需要显示子列表的一级分类项的下标
+      }
+    },
 
     computed: {
       /* baseCategoryList () {
@@ -93,6 +107,21 @@
     mounted () {
       // 通过异步action获取异步获取数据到vuex的state中
       this.$store.dispatch('getBaseCategoryList')
+    },
+
+    methods: {
+      /* 
+      显示指定下标的子分类
+      */
+      // showSubCategorys: _.throttle(function (index) {
+      showSubCategorys: throttle(function (index) {
+        console.log('showSubCategorys', index)
+        if (this.currentIndex===-2) return // 如果已经完全移出去了, 不做更新
+        // 更新需要显示子分类的下标
+        this.currentIndex = index
+        // 会导致列表更新(浏览器在更新过程中没办法去响应后面mouseenter)  ==> 实际上就是界面卡了 不太好
+        // 理想: 不去特别频繁的更新数据(更新界面)   ==> 使用节流
+      }, 300)
     }
   }
 </script>
@@ -190,7 +219,7 @@
 
                   dd {
                     float: left;
-                    width: 415px;
+                    width: 555px;
                     padding: 3px 0 0;
                     overflow: hidden;
 
@@ -207,7 +236,8 @@
               }
             }
 
-            &:hover {
+            &.item_on {
+              background: #ccc;
               .item-list {
                 display: block;
               }
