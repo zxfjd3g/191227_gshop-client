@@ -49,6 +49,39 @@
     利用vuex开发调试工具 ==> vuex管理的数据(state/getters)
     利用network ==> 查看请求(响应数据/url/method/params/query)
 
-
 ## 定义可复用的轮播组件
+    抽取轮播的模板部分
+    抽取轮播的JS部分
+    声明接收轮播的数组数据属性: carouselList
+
 ## 解决Floor组件中轮播有问题的bug
+    问题: banners的轮播可以, 但2个Floor的轮播都没有效果
+    原因: 
+        基础理解: 给组件标签传入的属性值是空数组/undefined, 组件对象会创建
+                 如果是通过v-for遍历一个空数组或undefined来产生多个标签, 组件对象不会创建
+        watch默认: 初始创建显示不会执行, 只有在数据变化后才会执行
+        得到结果: 
+            banners对应的<Carousel>有更新显示 ==> 会调用watch的回调创建swiper对象 
+            floors所对应的所有<Carousel>都没有更新显示 ==> 不会调用watch的回调, 没有创建swiper对象
+        详细过程:
+            <Carousel :carouselList="banners"/>
+            <Floor v-for="floor in floors" :key="floor.id" :floor="floor"/>
+                <Carousel :carouselList="floor.carouselList"/>
+            数据变化: 
+                banners: [] ==> [{}, {}, {}, {}]
+                floors: [] ==> [{carouselList: [{}, {}]}, {carouselList: [{}, {}, {}]}]
+            ListContainer中的: <Carousel :carouselList="banners"/>
+                []: 初始显示时创建Carousel组件对象, 默认不会调用watch的回调, 也就不会创建Swiper对象
+                [...]: Carousel组件对象调用watch的回调 => 更新显示 => 会创建一个Swiper对象
+            Home中的<Floor v-for="floor in floors" :key="floor.id" :floor="floor"/>
+                []: Floor组件对象没有创建, 内部的Carousel组件对象也就没有创建
+                [...]: 创建多个Floor组件对象, 内部就会创建Carousel组件对象 ==> 会不会执行watch的回调呢?
+        解决:
+            办法1: mounted() + watch回调
+                mounted()中: 判断如果已经有数据了, 立即创建swiper对象
+                watch回调: 判断如果有数据, 延迟创建swiper对象
+            办法2: watch
+                给watch指定2个配置
+                handler: 判断如果有数据, 延迟创建swiper对象
+                immediate: 指定为true, 表示在初始显示之前就会调用一次
+        

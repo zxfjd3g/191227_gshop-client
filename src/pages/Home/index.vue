@@ -21,6 +21,12 @@ import Brand from './Brand/Brand'
 export default {
   name: 'Home',
 
+  data () {
+    return {
+      floors2: [] // undefined
+    }
+  },
+
   mounted () {
     // 分发action请求获取banners和floors数据到state中
     this.$store.dispatch('getBanners')

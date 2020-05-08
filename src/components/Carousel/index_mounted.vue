@@ -26,6 +26,12 @@
       carouselList: Array
     },
 
+    mounted () { //  floors通过此方式创建的swiper
+      if (this.carouselList.length>0) { // 必须判断  数据列表已经显示了
+        // 直接创建swiper对象
+        this.initSwiper()
+      }
+    },
     // banners ==> [] 创建 ==> [...] 更新
     // floors ==> [] ==> [...] 创建
     watch: {
@@ -37,20 +43,17 @@
       只要更新了数据界面就会自动更新 (称为数据绑定), 但vue更新界面是异步的
       我们更新了数据 ==> 立即同步调用监视的回调函数(界面还没有更新, 列表数据还没有显示)  ==> 异步更新界面
       */
-      carouselList: {
-        handler (value) { // banners通过此方式创建的swiper
-          console.log('watch carouselList', value.length)
-          // 如果有数据才去创建延迟swiper
-          if (value.length>0) {
-            // this.initSwiper()  // 此时列表数据还没有显示, 没有轮播的效果
-            // nextTick()需要在数据更新之后界面更新前我们调用
-            // 指定的回调函数什么时候执行: 这次数据更新导致的界面更新完成后立即执行
-            this.$nextTick(() => {
-              this.initSwiper()
-            })
-          }
-        },
-        immediate: true, // 初始显示之前就立即调用一次
+      carouselList(value) { // banners通过此方式创建的swiper
+        console.log('watch carouselList', value.length)
+        // 如果有数据才去创建延迟swiper
+        if (value.length>0) {
+          // this.initSwiper()  // 此时列表数据还没有显示, 没有轮播的效果
+          // nextTick()需要在数据更新之后界面更新前我们调用
+          // 指定的回调函数什么时候执行: 这次数据更新导致的界面更新完成后立即执行
+          this.$nextTick(() => {
+            this.initSwiper()
+          })
+        }
       }
     },
 

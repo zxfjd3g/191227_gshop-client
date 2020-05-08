@@ -58,6 +58,9 @@
     name: 'Floor',
     props: {
       floor: Object
+    },
+    mounted () {
+      console.log('Floor mounted()') 
     }
   }
 </script>
