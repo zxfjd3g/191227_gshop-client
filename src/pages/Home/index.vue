@@ -21,6 +21,11 @@ import Brand from './Brand/Brand'
 export default {
   name: 'Home',
 
+  mounted () {
+    // 分发action请求获取banners数据到state中
+    this.$store.dispatch('getBanners')
+  },
+
   components: {
     ListContainer,
     TodayRecommend,
