@@ -1,8 +1,6 @@
 ## 今日任务
     1). TypeNav的交互功能
     2). mock数据接口
-    3). 利用mock数据接口实现ListContainer和Floor
-
 
 ## 事件控制二三级分类列表的显示与隐藏
     绑定事件: 
@@ -20,8 +18,13 @@
     import throttle from 'lodash/throttle'  // 只引入我需要的工具函数   打包文件减少1.4M
 
 ## 解决快速移出后可能显示第一个分类的子分类列表的bug
-    在最后一个mouseenter事件延迟0.3m才执行更新的回调函数
-    在这个0.3s之内可能已经移出去了
+    原因：在最后一个mouseenter事件延迟0.3m才执行更新的回调函数
+        在这个0.3s之内可能已经移出去了
+    解决: 给currentIndex设计了3个值:
+            -2: 在整个大div外面
+            -1: 进入了包含所有分类的大div上
+            >=0: 在某个分类上
+        在准备更新currentIndex之前, 需要判断currentIndex当前不能为-2
 
 ## 优化减少组件对象数量: 使用编程式导航代替声明式导航
     问题: 使用声明式导航跳转Search, 每个分类项都需要渲染一个RouterLink组件对象  ==> 显示缓慢
@@ -38,7 +41,7 @@
 
 ## 控制一级列表的显示与隐藏
     标识状态数据: isShowFirst
-    在离开时: 如果当前不是首页隐藏 isShowFirst = false
+    在离开时: 如果当前不是首页隐藏 isShowFirst = false   在beforeMount()中执行
     在进入时: 显示一级列表 isShowFirst = true
 
 ## 一级列表显示隐藏的过渡效果
