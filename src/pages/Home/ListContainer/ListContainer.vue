@@ -3,20 +3,7 @@
     <div class="sortList clearfix">
       <div class="center">
         <!--banner轮播-->
-        <!-- <div class="swiper-container" id="swiper"> -->
-        <div class="swiper-container" ref="swiper">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide" v-for="banner in banners" :key="banner.id">
-                <img :src="banner.imgUrl" />
-            </div>
-          </div>
-          <!-- 如果需要分页器 -->
-          <div class="swiper-pagination"></div>
-          
-          <!-- 如果需要导航按钮 -->
-          <div class="swiper-button-prev"></div>
-          <div class="swiper-button-next"></div>
-      </div>
+        <Carousel :carouselList="banners"/>
       </div>
       <div class="right">
         <div class="news">
@@ -103,9 +90,7 @@
 
 <script>
   import { mapState } from 'vuex'
-  import Swiper from 'swiper'
-  import 'swiper/css/swiper.min.css'
-
+  
   export default {
     name: 'ListContainer',
 
@@ -122,24 +107,6 @@
     },
 
     watch: {
-      /* 
-      监视banners变化的回调函数
-      当banners从[]变为[...]
-      注意: 默认初始时不调用, 只有数据变化了才调用
-
-      只要更新了数据界面就会自动更新 (称为数据绑定), 但vue更新界面是异步的
-      我们更新了数据 ==> 立即同步调用监视的回调函数(界面还没有更新, 列表数据还没有显示)  ==> 异步更新界面
-      */
-      banners (value) {
-        console.log('watch banners', value.length)
-        // this.initSwiper()  // 此时列表数据还没有显示, 没有轮播的效果
-        // nextTick()需要在数据更新之后界面更新前我们调用
-        // 指定的回调函数什么时候执行: 这次数据更新导致的界面更新完成后立即执行
-        this.$nextTick(() => {
-          this.initSwiper()
-        })
-      },
-
       msg () {
         console.log('watch msg', this.$refs.msg.innerHTML)
       }
@@ -158,30 +125,6 @@
     },
 
     methods: {
-      /* 
-      创建swiper实例对象: 必须在列表数据显示之后创建才有正常轮播效果
-      */
-      initSwiper() {
-        // new Swiper ('.swiper-container', {
-        // new Swiper ('#swiper', {
-        new Swiper (this.$refs.swiper, {
-          // direction: 'horizontal', // 水平切换, 默认就是这个值
-          
-          loop: true, // 循环模式选项
-          
-          // 如果需要分页器
-          pagination: {
-            el: '.swiper-pagination',
-          },
-          
-          // 如果需要前进后退按钮
-          navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-          },
-        })  
-      },
-
       updateMsg () {
         this.msg = 'baidu' // 这个操作会导致界面更新
         console.log('updateMsg', this.$refs.msg.innerHTML)
