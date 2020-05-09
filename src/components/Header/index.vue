@@ -31,10 +31,11 @@
         </router-link>
       </h1>
       <div class="searchArea">
-        <form action="###" class="searchForm">
+        <form action="/xxx" class="searchForm">
           <input type="text" id="autocomplete" class="input-error input-xxlarge"
           placeholder="关键字" v-model="keyword"/>
-          <button class="sui-btn btn-xlarge btn-danger" @click.prevent="search">搜索</button>
+          <button class="sui-btn btn-xlarge btn-danger" 
+            @click.prevent="search">搜索</button>
         </form>
       </div>
     </div>

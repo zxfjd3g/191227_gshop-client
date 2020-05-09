@@ -20,10 +20,19 @@
               {{options.keyword}}
               <i @click="removeKeyword">×</i>
             </li>
+            <li class="with-x" v-if="options.trademark">
+              {{options.trademark}}
+              <i @click="removeTrademark">×</i>
+            </li>
+
+            <li class="with-x" v-for="(prop, index) in options.props" :key="prop">
+              {{prop}}
+              <i @click="removeProp(index)">×</i>
+            </li>
           </ul>
         </div>
         <!--selector-->
-        <SearchSelector />
+        <SearchSelector :setTrademark="setTrademark" :addProp="addProp"/>
         <!--details-->
         <div class="details clearfix">
           <div class="sui-navbar">
@@ -190,6 +199,56 @@
     },
 
     methods: {
+
+      /* 
+      删除指定下标的属性条件
+      */
+      removeProp (index) {
+        // 删除对应的prop
+        this.options.props.splice(index, 1)
+        // 重新请求数据显示
+        this.$store.dispatch('getProductList', this.options)
+      },
+
+      /* 
+      添加一个属性条件
+      */
+      addProp (attrId, value, attrName) {
+
+        // 组装prop
+        const prop = `${attrId}:${value}:${attrName}`
+
+        // 如果已经添加过了当前属性, 直接结束
+        // ["属性ID:属性值:属性名"]
+        if (this.options.props.indexOf(prop)!==-1) return
+
+        // 向options中的props添加一个prop
+        this.options.props.push(prop)
+
+        // 重新请求数据显示
+        this.$store.dispatch('getProductList', this.options)
+      },
+
+      /* 
+      设置新的品牌条件数据
+      */
+      setTrademark (trademark) {
+        // 更新options中的trademark
+        this.options.trademark = trademark
+        // 重新请求获取商品列表显示
+        this.$store.dispatch('getProductList', this.options)
+      },
+
+      /* 
+      移除品牌搜索条件
+      */
+      removeTrademark () {
+        // 重置trademark数据
+        this.options.trademark = ''
+
+        // 重新请求获取商品列表显示
+        this.$store.dispatch('getProductList', this.options)
+      },
 
       /* 
       移除分类的搜索条件
