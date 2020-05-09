@@ -37,3 +37,25 @@ export function reqLogin (mobile, password) {
 /* mock接口对应的接口请求函数 */
 export const reqBanners = () => mockAjax('/banners')
 export const reqFloors = () => mockAjax('/floors')
+
+/* 
+根据搜索的条件参数对象获取商品列表数据
+*/
+export const reqProductList = (searchParams) => ajax({
+  url: '/list',
+  method: 'POST',
+  data: searchParams
+})
+// export const reqProductList = (searchParams) => ajax.post('/list', searchParams)
+
+/* 
+reqProductList({
+  "category3Id": "61",
+  "categoryName": "手机",
+  "keyword": "小米",
+  "order": "1:desc",
+  "pageNo": 1,
+  "pageSize": 10,
+  "props": ["1:1700-2799:价格", "2:6.65-6.74英寸:屏幕尺寸"],
+  "trademark": "4:小米"
+}) */

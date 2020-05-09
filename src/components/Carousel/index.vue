@@ -23,7 +23,11 @@
     name: 'Carousel',
     
     props: { // 声明接收属性
-      carouselList: Array
+      carouselList: Array,
+      autoplay: { // 是否自动轮播
+        type: Boolean,
+        default: true
+      }
     },
 
     // banners ==> [] 创建 ==> [...] 更新
@@ -65,6 +69,8 @@
           // direction: 'horizontal', // 水平切换, 默认就是这个值
 
           loop: true, // 循环模式选项
+
+          autoplay: this.autoplay, // 是否自动轮播
 
           // 如果需要分页器
           pagination: {

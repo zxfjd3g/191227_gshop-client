@@ -1,10 +1,10 @@
 ## 今日任务
     1). 利用mock的接口实现动态的ListContainer与Floor组件
-    2). 实现Search组件
+    2). 定义可复用的轮播组件Carousel, 并在ListContainer和Floor中使用
 
 ## mock接口的vuex编码
-    home.js: mutation / action
-    App.vue: dipatch()
+    home.js: state / mutation / action
+    App.vue: dipatch()  / mapState()
 
 ## 使用swiper实现静态页面轮播
     下载swiper: npm install -S swiper
@@ -52,7 +52,7 @@
 ## 定义可复用的轮播组件
     抽取轮播的模板部分
     抽取轮播的JS部分
-    声明接收轮播的数组数据属性: carouselList
+    声明接收轮播的数组数据属性: carouselList / autoplay
 
 ## 解决Floor组件中轮播有问题的bug
     问题: banners的轮播可以, 但2个Floor的轮播都没有效果
