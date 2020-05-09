@@ -12,10 +12,14 @@
             </li>
           </ul>
           <ul class="fl sui-tag">
-            <li class="with-x">手机</li>
-            <li class="with-x">iphone<i>×</i></li>
-            <li class="with-x">华为<i>×</i></li>
-            <li class="with-x">OPPO<i>×</i></li>
+            <li class="with-x" v-if="options.categoryName">
+              {{options.categoryName}}
+              <i @click="removeCategory">×</i>
+            </li>
+            <li class="with-x" v-if="options.keyword">
+              {{options.keyword}}
+              <i @click="removeKeyword">×</i>
+            </li>
           </ul>
         </div>
         <!--selector-->
@@ -182,9 +186,43 @@
       const obj2 = {b: 4, d: 5}
       const obj3 = {...obj1, ...obj2, d: 6}   // {a: 1, b: 4, c: 3, d: 6}
       */
+
     },
 
     methods: {
+
+      /* 
+      移除分类的搜索条件
+      */
+      removeCategory () {
+        // 重置分类的条件数据
+        this.options.categoryName = ''
+        this.options.category1Id = ''
+        this.options.category2Id = ''
+        this.options.category3Id = ''
+        // 重新获取数据
+        // this.$store.dispatch('getProductList', this.options) // 不可以
+        // 重新跳转到当前路由, 不再携带query参数, 只携带原本的params参数
+        this.$router.replace(this.$route.path)  // $route.path不带query参数, 但带params参数(如果有)
+      },
+
+      /* 
+      移除关键字的搜索条件
+      */
+      removeKeyword () {
+        // 重置分类的条件数据
+        this.options.keyword = ''
+        // 重新获取数据
+        // this.$store.dispatch('getProductList', this.options) // 不可以
+
+        // 重新跳转到当前路由, 不再携带params参数, 只携带原本的query参数
+        this.$router.replace({name: 'search', query: this.$route.query})
+
+        // 通知Header组件也删除输入的关键字
+        // 在Search, 通过事件总线对象来分发事件
+        this.$bus.$emit('removeKeyword')
+      },
+
       /* 
       根据query和params来更新options数据
       */
@@ -202,9 +240,6 @@
         }
       }
     },
-
-    
-
 
     components: {
       SearchSelector

@@ -32,7 +32,8 @@
       </h1>
       <div class="searchArea">
         <form action="###" class="searchForm">
-          <input type="text" id="autocomplete" class="input-error input-xxlarge" v-model="keyword"/>
+          <input type="text" id="autocomplete" class="input-error input-xxlarge"
+          placeholder="关键字" v-model="keyword"/>
           <button class="sui-btn btn-xlarge btn-danger" @click.prevent="search">搜索</button>
         </form>
       </div>
@@ -47,8 +48,15 @@
 
     data () {
       return {
-        keyword: 'atguigu'
+        keyword: ''
       }
+    },
+
+    mounted () {
+      // 在Header, 通过事件总线对象绑定事件监听来接收消息, 从而可以更新数据
+      this.$bus.$on('removeKeyword', () => {
+        this.keyword = ''
+      })
     },
 
     methods: {
@@ -138,7 +146,13 @@
         location.query = query
 
         // 跳转到Search
-        this.$router.push(location)
+        // 如果当前在Search, 使用replace(), 否则使用push
+        // if (this.$route.name==="search") {
+        if (this.$route.path.indexOf('/search') === 0) {
+          this.$router.replace(location)
+        } else {
+          this.$router.push(location)
+        }
       }
     }
   }
