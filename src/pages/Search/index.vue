@@ -141,8 +141,29 @@
       })
     },
 
+    watch: {
+      /* 
+      当路由跳转时只有路由参数发生了变化
+      */
+      $route () {
+        this.updateOptions()
+        // 请求获取数据
+        this.$store.dispatch('getProductList', this.options)
+      }
+    },
 
+    /* 
+    放初始同步更新data数据的代码
+    */
+    beforeMount () {
+      this.updateOptions()
+    },
+
+    /* 
+    初始异步更新的代码
+    */
     mounted () {
+      console.log('Search mounted()')
       /* this.$store.dispatch('getProductList', {
         "category3Id": "61",
         "categoryName": "手机",
@@ -154,10 +175,35 @@
         "trademark": "4:小米"
       }) */
 
-      const options = this.options
+      this.$store.dispatch('getProductList', this.options)
 
-      this.$store.dispatch('getProductList', options)
+      /* 
+      const obj1 = {a: 1, b: 2, c: 3}
+      const obj2 = {b: 4, d: 5}
+      const obj3 = {...obj1, ...obj2, d: 6}   // {a: 1, b: 4, c: 3, d: 6}
+      */
     },
+
+    methods: {
+      /* 
+      根据query和params来更新options数据
+      */
+      updateOptions () {
+        // 根据query和params更新options
+        const {categoryName, category1Id, category2Id, category3Id} = this.$route.query
+        const {keyword} = this.$route.params
+        this.options = {
+          ...this.options,
+          categoryName,
+          category1Id,
+          category2Id,
+          category3Id,
+          keyword,
+        }
+      }
+    },
+
+    
 
 
     components: {

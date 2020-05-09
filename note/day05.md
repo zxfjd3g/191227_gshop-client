@@ -30,4 +30,14 @@
     pageNo: 1, // 当前页码
     pageSize: 10, // 每页数量
 	
+## 根据分类和关键字进行搜索
+	分类: query参数: categoryName / category1Id / category2Id / category3Id
+	关键字: params参数: keyword
 
+    在beMount(): 根据query和params参数来更新options
+    在mounted(): 根据options发请求获取数据
+
+    问题: 如果当前已经在Search了, 再通过点击搜索/点击分类来跳转到Search, 没有重新搜索?
+    原因: 从A路由跳转到A路由, A路由组件对象不会重新创建  ==> 不会重新执行初始化生命周期回调
+    解决: 监视$route的变化(A => A, $router是重新产生), 根据query&params更新options, 再请求
+        监视路由参数变化: 监视$route就可以
