@@ -31,11 +31,17 @@
         </router-link>
       </h1>
       <div class="searchArea">
+
+        <!-- <form action="/xxx" class="searchForm" @submit.prevent="search"> -->
         <form action="/xxx" class="searchForm">
           <input type="text" id="autocomplete" class="input-error input-xxlarge"
           placeholder="关键字" v-model="keyword"/>
           <button class="sui-btn btn-xlarge btn-danger" 
-            @click.prevent="search">搜索</button>
+            @click.prevent="search" type="submit">搜索</button> <!-- 默认type为submit -->
+            <!-- 
+              绑定事件监听方式: @click.prevent与 form上@submit.prevent作用是一样的
+              触发事件方式: 点击按钮或点击enter键(焦点在输入框)
+            -->
         </form>
       </div>
     </div>
