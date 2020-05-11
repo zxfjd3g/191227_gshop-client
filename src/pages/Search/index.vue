@@ -38,10 +38,12 @@
           <div class="sui-navbar">
             <div class="navbar-inner filter">
               <ul class="sui-nav">
-                <li :class="{active: options.order.indexOf('1')===0}">  <!-- "1:desc" -->
-                  <a href="#">
+                <!-- <li :class="{active: options.order.indexOf('1')===0}" @click="setOrder('1')">  "1:desc" -->
+                <li :class="{active: isActive('1')}" @click="setOrder('1')">  <!-- "1:desc" -->
+                  <a href="javascript:">
                     综合
-                    ⬆
+                    <i class="iconfont" :class="orderIcon" 
+                      v-if="isActive('1')"></i>
                   </a>
                 </li>
                 <li>
@@ -53,8 +55,11 @@
                 <li>
                   <a href="#">评价</a>
                 </li>
-                <li :class="{active: options.order.indexOf('2')===0}">
-                  <a href="#">价格⬆</a>
+                <li :class="{active: isActive('2')}" @click="setOrder('2')">
+                  <a href="javascript:">
+                    价格
+                    <i class="iconfont" :class="orderIcon" v-if="isActive('2')"></i>
+                  </a>
                 </li>
               </ul>
             </div>
@@ -88,35 +93,13 @@
               </li>
             </ul>
           </div>
-          <div class="fr page">
-            <div class="sui-pagination clearfix">
-              <ul>
-                <li class="prev disabled">
-                  <a href="#">«上一页</a>
-                </li>
-                <li class="active">
-                  <a href="#">1</a>
-                </li>
-                <li>
-                  <a href="#">2</a>
-                </li>
-                <li>
-                  <a href="#">3</a>
-                </li>
-                <li>
-                  <a href="#">4</a>
-                </li>
-                <li>
-                  <a href="#">5</a>
-                </li>
-                <li class="dotted"><span>...</span></li>
-                <li class="next">
-                  <a href="#">下一页»</a>
-                </li>
-              </ul>
-              <div><span>共10页&nbsp;</span></div>
-            </div>
-          </div>
+          <Pagination 
+            :currentPage="options.pageNo" 
+            :pageSize="options.pageSize"
+            :total="productList.total"
+            :showPageNo="3"
+            @currentChange="handlCurrentChange"
+          />
         </div>
       </div>
     </div>
@@ -141,9 +124,9 @@
           keyword: '', // 关键字
           // trademark: '', // 品牌  "ID:品牌名称"
           props: [], // 商品属性的数组: ["属性ID:属性值:属性名"] 示例: ["2:6.0～6.24英寸:屏幕尺寸"]
-          order: '2:desc', // 排序方式  1: 综合,2: 价格 asc: 升序,desc: 降序  示例: "1:desc"
+          order: '1:asc', // 排序方式  1: 综合,2: 价格 asc: 升序,desc: 降序  示例: "1:desc"
           pageNo: 1, // 当前页码
-          pageSize: 10, // 每页数量
+          pageSize: 5, // 每页数量
           a: {
             b: 123
           }
@@ -154,7 +137,14 @@
     computed: {
       ...mapState({
         productList: state => state.search.productList
-      })
+      }),
+
+      /* 
+      计算排序方式的icon类名
+      */
+      orderIcon () {
+        return this.options.order.split(':')[1]==='desc' ? 'icondown' : 'iconup'
+      }
     },
 
     watch: {
@@ -202,6 +192,43 @@
     },
 
     methods: {
+
+      /* 
+      当选择改变当前页码时的事件监听回调
+      */
+      handlCurrentChange (currentPage) {
+        // 更新options中pageNo
+        this.options.pageNo = currentPage
+        // 重新请求获取指定页码的数据显示
+        this.$store.dispatch('getProductList', this.options)
+      },
+
+      /* 
+      判断指定flag的排序项是否是当前项
+      */
+      isActive (orderFlag) {
+        return this.options.order.indexOf(orderFlag)===0
+      },
+
+      /* 
+      设置新的排序    '1:desc'
+      */
+      setOrder (flag) { '0' / '1'
+        // 得到原本的orderFlag和orderType
+        let [orderFlag, orderType] = this.options.order.split(':')
+        // 点击当前排序项: 切换排序方式
+        if (flag===orderFlag) {
+          orderType = orderType==='desc' ? 'asc' : 'desc'
+        } else { // 点击不是当前排序项: 切换排序项, 排序方式为降序
+          orderFlag = flag
+          orderType = 'desc'
+        }
+
+        // 设置新的order值
+        this.options.order = orderFlag + ':' + orderType
+        // 重新请求显示
+        this.$store.dispatch('getProductList', this.options)
+      },
 
       /* 
       删除指定下标的属性条件
