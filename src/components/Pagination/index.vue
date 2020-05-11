@@ -126,14 +126,23 @@
 
     },
 
+    watch: {
+      currentPage (value) { // 当父组件改变了其对应的当前页码数据时, 此回调函数就会自动调用
+        // 更新内部的当前页码
+        this.myCurrentPage = value // 也可以this.currentPage
+      }
+    },
+
 
     methods: {
       /* 
       设置新的当前页码
       */
-      setCurrentPage (page) {
+      setCurrentPage (currentPage) {
         // 一定要是更新自己data中的当前页码, 而不更新接收的currentPage属性
-        this.myCurrentPage = page
+        this.myCurrentPage = currentPage
+        // 分发vue自定义事件: 通知父组件, 当前页码变化了
+        this.$emit('currentChange', currentPage)
       }
     }
   }

@@ -69,9 +69,9 @@
               <li class="yui3-u-1-5" v-for="goods in productList.goodsList" :key="goods.id">
                 <div class="list-wrap">
                   <div class="p-img">
-                    <a href="javascript:">
+                    <router-link :to="`/detail/${goods.id}`">
                       <img :src="goods.defaultImg" />
-                    </a>
+                    </router-link>
                   </div>
                   <div class="price">
                     <strong>
@@ -80,7 +80,7 @@
                     </strong>
                   </div>
                   <div class="attr">
-                    <a href="javascript:">{{goods.title}}</a>
+                    <router-link :to="`/detail/${goods.id}`">{{goods.title}}</router-link>
                   </div>
                   <div class="commit">
                     <i class="command">已有<span>2000</span>人评价</i>
@@ -127,9 +127,6 @@
           order: '1:asc', // 排序方式  1: 综合,2: 价格 asc: 升序,desc: 降序  示例: "1:desc"
           pageNo: 1, // 当前页码
           pageSize: 5, // 每页数量
-          a: {
-            b: 123
-          }
         }
       }
     },
@@ -181,8 +178,7 @@
         "trademark": "4:小米"
       }) */
 
-      this.$store.dispatch('getProductList', this.options)
-
+      this.getProductList()
       /* 
       const obj1 = {a: 1, b: 2, c: 3}
       const obj2 = {b: 4, d: 5}
@@ -192,6 +188,17 @@
     },
 
     methods: {
+
+      /* 
+      异步获取指定页码的分页商品数据
+      默认指定第1页
+      */
+      getProductList(pageNo=1) {
+        // 更新options中的pageNo
+        this.options.pageNo = pageNo
+        // 再dispatch请求获取
+        this.$store.dispatch('getProductList', this.options)
+      },
 
       /* 
       当选择改变当前页码时的事件监听回调
@@ -227,7 +234,7 @@
         // 设置新的order值
         this.options.order = orderFlag + ':' + orderType
         // 重新请求显示
-        this.$store.dispatch('getProductList', this.options)
+        this.getProductList()
       },
 
       /* 
@@ -237,7 +244,7 @@
         // 删除对应的prop
         this.options.props.splice(index, 1)
         // 重新请求数据显示
-        this.$store.dispatch('getProductList', this.options)
+        this.getProductList()
       },
 
       /* 
@@ -256,7 +263,7 @@
         this.options.props.push(prop)
 
         // 重新请求数据显示
-        this.$store.dispatch('getProductList', this.options)
+        this.getProductList()
       },
 
       /* 
@@ -273,7 +280,7 @@
         }
         
         // 重新请求获取商品列表显示
-        this.$store.dispatch('getProductList', this.options)
+        this.getProductList()
       },
 
       /* 
@@ -287,6 +294,7 @@
 
         // 重新请求获取商品列表显示
         // this.$store.dispatch('getProductList', this.options)
+        this.getProductList()
       },
 
       /* 

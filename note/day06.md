@@ -64,5 +64,31 @@
                 算法: Math.ceil(total/pageSize)
             连续页码数的开始页码与结束页码: start和end
                 依赖数据: myCurrentPage / showPageNo / totalPages
+                算法:
+                    start最小值是1
+                    end最大值是totalPages
+                    计算start
+                    计算end
+                    返回包含start和end的对象
 
         根据props和data数据和computed进行动态显示
+            :disabled="xxx": 控制是否能操作
+            v-if="yyy": 控制是否显示
+            v-for="end": 遍历显示多个数值   
+            v-for的优先级高于v-if: 先执行v-for的遍历, 每遍历一个再进行v-if的判断  面试题
+        
+        更新数据, 更新界面
+            用户操作组件界面元素时, 更新当前组件的data数据
+            子组件更新data数据的同时, 可能需要通知父组件做一些更新父组件数据的操作(可能异步/同步)
+            父组件更新data数据的同时, 可能也要去更新子组件的数据
+
+## Detail组件静态路由组件
+    定义静态组件
+    注册路由
+    通过<router-link>进行路由跳转
+
+    如何让路由跳转后, 滚动条自动停留到起始位置?
+        scrollBehavior (to, from, savedPosition) {
+            return { x: 0, y: 0 }  // 在跳转路由时, 滚动条自动滚动到x轴和y轴的起始位置
+        }
+
