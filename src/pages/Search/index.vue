@@ -38,8 +38,11 @@
           <div class="sui-navbar">
             <div class="navbar-inner filter">
               <ul class="sui-nav">
-                <li class="active">
-                  <a href="#">综合</a>
+                <li :class="{active: options.order.indexOf('1')===0}">  <!-- "1:desc" -->
+                  <a href="#">
+                    综合
+                    ⬆
+                  </a>
                 </li>
                 <li>
                   <a href="#">销量</a>
@@ -50,11 +53,8 @@
                 <li>
                   <a href="#">评价</a>
                 </li>
-                <li>
+                <li :class="{active: options.order.indexOf('2')===0}">
                   <a href="#">价格⬆</a>
-                </li>
-                <li>
-                  <a href="#">价格⬇</a>
                 </li>
               </ul>
             </div>
@@ -139,11 +139,14 @@
           category3Id: '', // 三级分类ID
           categoryName: '', // 分类名称
           keyword: '', // 关键字
-          trademark: '', // 品牌  "ID:品牌名称"
+          // trademark: '', // 品牌  "ID:品牌名称"
           props: [], // 商品属性的数组: ["属性ID:属性值:属性名"] 示例: ["2:6.0～6.24英寸:屏幕尺寸"]
-          order: '1:desc', // 排序方式  1: 综合,2: 价格 asc: 升序,desc: 降序  示例: "1:desc"
+          order: '2:desc', // 排序方式  1: 综合,2: 价格 asc: 升序,desc: 降序  示例: "1:desc"
           pageNo: 1, // 当前页码
           pageSize: 10, // 每页数量
+          a: {
+            b: 123
+          }
         }
       }
     },
@@ -234,7 +237,14 @@
       */
       setTrademark (trademark) {
         // 更新options中的trademark
-        this.options.trademark = trademark
+        // this.options.trademark = trademark
+        // 如果options中没有trademark属性, 必须通过set来添加
+        if (!this.options.hasOwnProperty('trademark')) {
+          this.$set(this.options, 'trademark', trademark)
+        } else { // 如果options中有trademark属性, 直接赋值就可以了
+          this.options.trademark = trademark
+        }
+        
         // 重新请求获取商品列表显示
         this.$store.dispatch('getProductList', this.options)
       },
@@ -244,10 +254,12 @@
       */
       removeTrademark () {
         // 重置trademark数据
-        this.options.trademark = ''
+        // this.options.trademark = ''
+        // delete this.options.trademark  // 不会更新界面
+        this.$delete(this.options, 'trademark')
 
         // 重新请求获取商品列表显示
-        this.$store.dispatch('getProductList', this.options)
+        // this.$store.dispatch('getProductList', this.options)
       },
 
       /* 

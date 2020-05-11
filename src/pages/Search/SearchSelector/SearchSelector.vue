@@ -29,7 +29,7 @@
 </template>
 
 <script>
-  import {mapState} from 'vuex'
+  import {mapState, mapGetters} from 'vuex'
   export default {
     name: 'SearchSelector',
 
@@ -39,9 +39,14 @@
     },
 
     computed: {
-      ...mapState({
+      /* ...mapState({
         trademarkList: state => state.search.productList.trademarkList,  // 品牌列表
         attrList: state => state.search.productList.attrsList, // 属性列表
+      }), */
+      // ...mapGetters(['trademarkList', 'attrList'])
+      ...mapGetters({
+        trademarkList: 'trademarkList',
+        attrList: 'attrsList'
       })
     }
   }
