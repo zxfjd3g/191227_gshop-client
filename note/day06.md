@@ -1,6 +1,6 @@
 ## 今日任务
     1). 响应式数据对象: 添加新属性和删除属性的问题
-    2). 排序
+    2). 排序功能
     3). 自定义分页组件: Pagination
     4). Detail组件
 
@@ -91,4 +91,3 @@
         scrollBehavior (to, from, savedPosition) {
             return { x: 0, y: 0 }  // 在跳转路由时, 滚动条自动滚动到x轴和y轴的起始位置
         }
-
