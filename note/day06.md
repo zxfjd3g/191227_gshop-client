@@ -48,3 +48,19 @@
 
 ## 自定义分页组件: Pagination
     1). 直接使用已经定义好的分页组件Pagination
+
+    2). 自定义通用型/复用型组件的基本步骤
+        实现静态组件: 模板/样式写好
+        设计从外部接收的数据: props
+            currentPage: 当前页码
+            pageSize: 每页数量
+            total: 总数量
+            showPageNo: 连续数码数
+        设计内部包含的数据: data
+            myCurrentPage: 当前页码
+        设计基于props和data的计算属性数据: computed
+            总页数: totalPages
+                依赖数据: total 和 pageSize     36 5 
+                算法: Math.ceil(total/pageSize)
+            连续页码数的开始页码与结束页码: start和end
+        根据props和data数据和computed进行动态显示
