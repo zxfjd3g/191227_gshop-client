@@ -63,4 +63,6 @@
                 依赖数据: total 和 pageSize     36 5 
                 算法: Math.ceil(total/pageSize)
             连续页码数的开始页码与结束页码: start和end
+                依赖数据: myCurrentPage / showPageNo / totalPages
+
         根据props和data数据和computed进行动态显示
