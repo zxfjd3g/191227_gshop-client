@@ -24,9 +24,10 @@
         <!-- 左侧放大镜区域 -->
         <div class="previewWrap">
           <!--放大镜效果-->
-          <Zoom />
+          <Zoom v-if="skuImageList.length>0" :bigUrl="skuImageList[currentIndex].imgUrl" 
+            :imgUrl="skuImageList[currentIndex].imgUrl"/>
           <!-- 小图列表 -->
-          <ImageList />
+          <ImageList @currentChange="handleCurrentChange"/>
         </div>
         <!-- 右侧选择区域布局 -->
         <div class="InfoWrap">
@@ -361,15 +362,30 @@
   export default {
     name: 'Detail',
 
+    data () {
+      return {
+        currentIndex: 0, // 当前要交给Zoom显示的图片下标
+      }
+    },
+
     computed: {
       ...mapState({
         detailInfo: state => state.detail.detailInfo
       }),
-      ...mapGetters(['categoryView', 'skuInfo'])
+      ...mapGetters(['categoryView', 'skuInfo', 'skuImageList'])
     },
 
     mounted () {
       this.$store.dispatch('getDetailInfo', this.$route.params.skuId)
+    },
+
+    methods: {
+      /* 
+      当前图片下标发生改变的监听回调函数
+      */
+      handleCurrentChange (index) {
+        this.currentIndex = index
+      }
     },
     
     components: {

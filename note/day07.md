@@ -25,3 +25,6 @@
     数据: spuSaleAttrList  ==> isChecked为"1"代表是默认的
     动态显示列表
     点击选中任意一个
+
+## ImageList组件
+    动态显示数据
