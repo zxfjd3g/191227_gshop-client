@@ -28,3 +28,20 @@
 
 ## ImageList组件
     动态显示数据
+
+    放大镜的效果:
+        布局: 
+            左边: 
+                <img>: 中图
+                event <div>: 用来绑定响应mousemove
+                mask <div>: 随着鼠标移动的遮罩   字的尺寸是div的1/4
+            右边:
+                <div>: 包含大图img, 与左侧尺寸一样
+                <img>: 大图, 尺寸是中图的4倍
+        事件处理:
+            什么事件: mousemove
+            给谁绑定: event <div>
+            在事件回调函数中做什么?
+                移动mask div: 指定其left和top样式
+                移动大图 img: 指定其left和top样式
+            
