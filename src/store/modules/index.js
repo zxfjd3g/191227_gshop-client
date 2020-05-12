@@ -5,13 +5,15 @@
 import home from './home'
 import user from './user'
 import search from './search'   // 取默认暴露的模块, 如果没有就是undefined
+import detail from './detail'
 
 // console.log('search', search)
 
 export default {
   home,
   user,
-  search
+  search,
+  detail
 }
 
 /* 
@@ -29,6 +31,10 @@ vuex的store管理的总state是什么结构:
     },
 
     search: {
+      
+    },
+
+    detail: {
       
     }
   }
