@@ -13,7 +13,8 @@
       <div class="cart-body">
         <ul class="cart-list" v-for="item in cartList" :key="item.id">
           <li class="cart-list-con1">
-            <input type="checkbox" name="chk_list" :checked="item.isChecked===1">
+            <input type="checkbox" name="chk_list" :checked="item.isChecked===1" 
+            @change="checkCartItem(item)">
           </li>
           <li class="cart-list-con2">
             <img :src="item.imgUrl">
@@ -40,7 +41,11 @@
     </div>
     <div class="cart-tool">
       <div class="select-all">
-        <input class="chooseAll" type="checkbox">
+        <!-- 
+        显示: 根据cartList中是否所有item都勾选了, 来决定是true/false  ==> isAllChecked值由cartList计算确定
+        当用户主动改变的checkbox勾选状态: 发请求更新所有购物项的勾选状态为对应的值 ==> 需要监视isAllChecked的变化
+        -->
+        <input class="chooseAll" type="checkbox" v-model="isAllChecked">
         <span>全选</span>
       </div>
       <div class="option">
@@ -77,11 +82,51 @@
       // 不用mapState的写法
       cartList2 () {
         return this.$store.state.shopCart.cartList
+      },
+
+      /* 
+      是否全选的计算属性
+      */
+      isAllChecked: {
+        // 根据cartList来计算
+        get () {
+          // 判断是否是所有item的isChecked为1
+          // return this.cartList.filter(item => item.isChecked===1).length===this.cartList.length
+          // return this.cartList.filter(item => item.isChecked!==1).length===0
+          // return this.cartList.find(item => item.isChecked!==1)===undefined
+          // return !this.cartList.find(item => item.isChecked!==1)
+          // return !this.cartList.some(item => item.isChecked===0)  // 是否有一个元素满足条件
+          return this.cartList.every(item => item.isChecked===1)  // 是否所有元素都满足条件
+        },
+        // 监视当前勾选状态的改变
+        set (value) {
+
+        }
       }
     },
 
     mounted () {
       this.$store.dispatch('getCartList')
+    },
+
+    methods: {
+      /* 
+      改变指定购物项的勾选状态
+      */
+      async checkCartItem (item) {
+
+        // 准备skuId, isChecked
+        const skuId = item.skuId
+        const isChecked = item.isChecked===1 ? 0 : 1
+        try {
+          // 分发一个异步action
+          await this.$store.dispatch('checkCartItem', {skuId, isChecked})
+          // 异步请求操作成功了
+          this.$store.dispatch('getCartList')
+        } catch (error) { // 异步请求操作失败了
+          alert(error.message)
+        }
+      }
     }
   }
 </script>

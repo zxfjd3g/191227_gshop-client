@@ -2,7 +2,7 @@
 管理购物车相关数据的vuex子模块
 */
 
-import {reqCartLit} from '@/api'
+import {reqCartLit, reqCheckCartItem} from '@/api'
 
 export default  {
   state: {
@@ -25,7 +25,21 @@ export default  {
         const cartList = result.data
         commit('RECEIVE_CART_LIST', {cartList})  // 提交给mutation是包含数据的对象
       }
+    },
+
+    /* 
+    改变购物项的勾选状态的异步
+    */
+    async checkCartItem ({commit}, {skuId, isChecked}) {
+      // 异步请求
+      const result = await reqCheckCartItem(skuId, isChecked)
+
+      if (result.code!==200) { // 操作失败
+        throw new Error(result.message || '修改勾选状态操作成功')
+      }
     }
+    
+
   },
   getters: {
     /* 

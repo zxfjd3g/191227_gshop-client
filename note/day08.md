@@ -44,3 +44,16 @@
             vuex的state中: 从localStorage中读取uuid值保存到state中  ==> 减少从localStorage读取的次数
     userTempId使用
         每次请求都携带上userTempId: 使用axios的请求拦截器
+
+
+## 改变指定商品的勾选状态
+    api
+    vuex
+    component
+
+## 实现所有购物项商品的全选/全不选功能
+    api
+    vuex
+    component
+        显示: 根据cartList中是否所有item都勾选了, 来决定是true/false
+        当用户主动改变的checkbox勾选状态: 发请求更新所有购物项的勾选状态为对应的值
