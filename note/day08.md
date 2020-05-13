@@ -57,3 +57,16 @@
     component
         显示: 根据cartList中是否所有item都勾选了, 来决定是true/false
         当用户主动改变的checkbox勾选状态: 发请求更新所有购物项的勾选状态为对应的值
+
+## 删除指定的一个商品  (作业)
+
+## 删除所有选中的商品 (作业)
+
+## 修改商品的数量
+    api: reqAddToCart(skuId, skuNumChange)  
+         skuNumChange代表要改变的数量, 如果是正数代表增加, 如果负数代表减少
+    vuex:
+        addToCart3({}, {skuId, skuNum})
+    component:
+        
+

@@ -71,11 +71,11 @@ export const reqProduct = (skuId) => ajax(`/item/${skuId}`)
 
 /* 
 添加到购物车(对已有物品进行数量改动)
-/api/cart/addToCart/{ skuId }/{ skuNum }
+/api/cart/addToCart/{ skuId }/{ skuNumChange }
 skuId: 商品的id
-skuNum: 增加或减少的数量 正数代表增加 / 负数代表减少
+skuNumChange: 增加或减少的数量 正数代表增加 / 负数代表减少
 */
-export const reqAddToCart = (skuId, skuNum) => ajax.post(`/cart/addToCart/${skuId}/${skuNum}`)
+export const reqAddToCart = (skuId, skuNumChange) => ajax.post(`/cart/addToCart/${skuId}/${skuNumChange}`)
 
 /* 
 获取购物车列表

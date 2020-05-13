@@ -15,7 +15,7 @@
           <li class="cart-list-con1">
             <input type="checkbox" name="chk_list" :checked="item.isChecked===1" 
             @change="checkCartItem(item)">
-          </li>
+          </li>   
           <li class="cart-list-con2">
             <img :src="item.imgUrl">
             <div class="item-msg">{{item.skuName}}</div>
@@ -24,9 +24,15 @@
             <span class="price">{{item.cartPrice}}</span>
           </li>
           <li class="cart-list-con5">
-            <a href="javascript:void(0)" class="mins">-</a>
-            <input autocomplete="off" type="text" class="itxt" :value="item.skuNum">
-            <a href="javascript:void(0)" class="plus">+</a>
+            <a href="javascript:void(0)" class="mins" @click="changeItemNum(item, -1)">-</a>
+            <!-- 
+              在vue和原生DOM中, input输入框
+                input事件: 在输入发生改变时实时触发
+                change事件: 在失去焦点时才触发
+             -->
+            <input autocomplete="off" type="text" class="itxt" :value="item.skuNum" 
+              @change="changeItemNum(item, $event.target.value*1 - item.skuNum)">
+            <a href="javascript:void(0)" class="plus" @click="changeItemNum(item, 1)">+</a>
           </li>
           <li class="cart-list-con6">
             <span class="sum">{{item.cartPrice * item.skuNum}}</span>
@@ -99,8 +105,14 @@
           return this.cartList.every(item => item.isChecked===1)  // 是否所有元素都满足条件
         },
         // 监视当前勾选状态的改变
-        set (value) {
-
+        async set (value) { // value就是当前勾选状态的值true/false
+          try {
+            const result = await this.$store.dispatch('checkAllCartItems', value)
+            // 异步请求操作成功了, 重新获取列表数据
+            this.$store.dispatch('getCartList')
+          } catch (error) {
+            alert(error.message)
+          }
         }
       }
     },
@@ -110,6 +122,24 @@
     },
 
     methods: {
+
+      /* 
+      改变购物项中疝的数量
+      */
+      async changeItemNum (item, numChange) {
+         try {
+           // 如果修改数量后的数量小于1, 直接结束
+           if (item.skuNum + numChange<1) return
+
+          // 分发一个异步action
+          await this.$store.dispatch('addToCart3', {skuId: item.skuId, skuNum: numChange})
+          // 异步请求操作成功了, 重新获取数据显示
+          this.$store.dispatch('getCartList')
+        } catch (error) { // 异步请求操作失败了
+          alert(error.message)
+        }
+      },
+
       /* 
       改变指定购物项的勾选状态
       */
