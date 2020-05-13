@@ -58,10 +58,7 @@ const actions = {
 
   async addToCart3 ({commit}, {skuId, skuNum}) {
     const result = await reqAddToCart(skuId, skuNum)
-    if (result.code===200) { // 添加到购物车成功
-      // console.log('添加到购物车成功')
-      return '' // async函数的promise是成功的
-    } else { // 失败
+    if (result.code!==200) { // 失败
       // console.log('添加到购物车失败')
       throw new Error('添加到购物车失败')   // async函数的promise就是失败的
     }

@@ -63,7 +63,12 @@
     实现方式2: 利用dispatch()的promise返回值
         前置知识:
             async函数执行的返回值是一个promise, 且promise的结果由函数体的结果决定
-            执行dispatch()返回值为promise对象, 它就是async函数返回的promise
+                throw error ==> 失败了 reason为error
+                return 失败的promise  ==> 失败了 reason为函数体返回听promise的reason
+                return 成功的promise ==> 成功了, value为函数体返回听promise的value
+                return 其它值  ==> 成功了, value为函数体返回的值
+
+            执行dispatch()返回值为promise对象, 它就是async action函数返回的promise
         
         component: dispatch('addToCart', {}) // 不用携带回调函数数据
         方式1:
@@ -76,6 +81,3 @@
                 请求操作成功: 返回''
                 请求操作失败: throw new Error(errorMsg值)
             component: 通过dispatch()返回的promise是成功的还是失败来判断操作是成功的还是失败
-
-
-        

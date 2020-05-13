@@ -4,6 +4,7 @@
 import Home from '@/pages/Home'
 import Search from '@/pages/Search'
 import Detail from '@/pages/Detail'
+import AddCartSuccess from '@/pages/AddCartSuccess'
 
 
 import Register from '@/pages/Register'
@@ -25,6 +26,10 @@ export default [
     name: 'detail',  // 是当前路由的标识名称
     path: '/detail/:skuId',
     component: Detail,
+  },
+  {
+    path: '/addcartsuccess',
+    component: AddCartSuccess,
   },
 
 
