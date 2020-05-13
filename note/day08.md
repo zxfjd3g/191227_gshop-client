@@ -47,16 +47,19 @@
 
 
 ## 改变指定商品的勾选状态
-    api
-    vuex
-    component
+    api: reqCartList()
+    vuex: checkCartItem(): 请求失败后抛出包含错误信息的error
+    component: change监听回调中dispatch('checkCartItem'), 并根据是否成功做不同处理
 
 ## 实现所有购物项商品的全选/全不选功能
-    api
-    vuex
+    api: 没有一个设置所有购物项选中状态的接口
+    vuex: checkAllCartItems()对所有勾选状态需要改变的购物项分别dispatch到checkCartItem()
+        action函数中的context对象的结构: {state, getters, commit, dispatch}
     component
-        显示: 根据cartList中是否所有item都勾选了, 来决定是true/false
-        当用户主动改变的checkbox勾选状态: 发请求更新所有购物项的勾选状态为对应的值
+        带get和set的计算属性
+            显示: 根据cartList中是否所有item都勾选了, 来决定是true/false
+            当用户主动改变的checkbox勾选状态: 发请求更新所有购物项的勾选状态为对应的值
+        使用一组数组声明式方法: filter()/find()/some()/every()
 
 ## 删除指定的一个商品  (作业)
 
@@ -66,7 +69,13 @@
     api: reqAddToCart(skuId, skuNumChange)  
          skuNumChange代表要改变的数量, 如果是正数代表增加, 如果负数代表减少
     vuex:
-        addToCart3({}, {skuId, skuNum})
+        addToCart3(context, {skuId, skuNum}): 请求失败后抛出包含异常信息的error对象
     component:
+        限制修改后的数量不能小于1, 否则不做修改
+        给input输入框绑定change监听, 而不是input监听
+        实现输入非数字或小于1的数据都会自动变为原本的数量
+
+
+
         
 

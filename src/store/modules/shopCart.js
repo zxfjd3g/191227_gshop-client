@@ -2,7 +2,7 @@
 管理购物车相关数据的vuex子模块
 */
 
-import {reqCartLit, reqCheckCartItem, reqAddToCart} from '@/api'
+import {reqCartList, reqCheckCartItem, reqAddToCart, reqDeleteCartItem} from '@/api'
 
 export default  {
   state: {
@@ -20,7 +20,7 @@ export default  {
     获取购物车列表数据的异步action
     */
     async getCartList ({commit}) {
-      const result = await reqCartLit()
+      const result = await reqCartList()
       if (result.code===200) {
         const cartList = result.data
         commit('RECEIVE_CART_LIST', {cartList})  // 提交给mutation是包含数据的对象
@@ -117,8 +117,33 @@ export default  {
         // console.log('添加到购物车失败')
         throw new Error('添加到购物车失败')   // async函数的promise就是失败的
       }
+    },
+
+    /* 
+    删除一个购物项的异步action
+    */
+    async deleteCartItem (context, skuId) {
+      const result = await reqDeleteCartItem(skuId)
+      if (result.code!==200) { // 失败
+        throw new Error('删除购物项失败')   // async函数的promise就是失败的
+      }
+    },
+
+    /* 
+    删除所有勾选的购物项的异步action
+    */
+    async deleteCheckedCartItems ({state, dispatch}) {
+      const promises = state.cartList.reduce((pre, item) => {
+        if (item.isChecked===1) {
+          pre.push(dispatch('deleteCartItem', item.skuId))
+        }
+        return pre
+      }, [])
+
+      return Promise.all(promises)
     }
   },
+  
   getters: {
     /* 
     已选中的商品的总数量

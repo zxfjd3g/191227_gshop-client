@@ -31,14 +31,14 @@
                 change事件: 在失去焦点时才触发
              -->
             <input autocomplete="off" type="text" class="itxt" :value="item.skuNum" 
-              @change="changeItemNum(item, $event.target.value*1 - item.skuNum)">
+              @change="changeItemNum(item, $event.target.value*1 - item.skuNum, $event)">
             <a href="javascript:void(0)" class="plus" @click="changeItemNum(item, 1)">+</a>
           </li>
           <li class="cart-list-con6">
             <span class="sum">{{item.cartPrice * item.skuNum}}</span>
           </li>
           <li class="cart-list-con7">
-            <a href="#none" class="sindelet">删除</a>
+            <a href="javascript:" class="sindelet" @click="deleteCartItem(item)">删除</a>
             <br>
             <a href="#none">移到收藏</a>
           </li>
@@ -55,7 +55,7 @@
         <span>全选</span>
       </div>
       <div class="option">
-        <a href="#none">删除选中的商品</a>
+        <a href="javascript:" @click="deleteCheckedCartItems">删除选中的商品</a>
         <a href="#none">移到我的关注</a>
         <a href="#none">清除下柜商品</a>
       </div>
@@ -125,18 +125,26 @@
 
       /* 
       改变购物项中疝的数量
+      item: 操作的购物项
+      numChange: 改变的数量
+      event: 在输入框上触发的事件对象, 只有当直接修改输入框时才有值
       */
-      async changeItemNum (item, numChange) {
-         try {
-           // 如果修改数量后的数量小于1, 直接结束
-           if (item.skuNum + numChange<1) return
-
-          // 分发一个异步action
-          await this.$store.dispatch('addToCart3', {skuId: item.skuId, skuNum: numChange})
-          // 异步请求操作成功了, 重新获取数据显示
-          this.$store.dispatch('getCartList')
-        } catch (error) { // 异步请求操作失败了
-          alert(error.message)
+      async changeItemNum (item, numChange, event) {
+        // 如果修改数量后的数量大于0才需要请求更新
+        if (item.skuNum + numChange>0) {
+          try {
+            // 分发一个异步action
+            await this.$store.dispatch('addToCart3', {skuId: item.skuId, skuNum: numChange})
+            // 异步请求操作成功了, 重新获取数据显示
+            this.$store.dispatch('getCartList')
+          } catch (error) { // 异步请求操作失败了
+            alert(error.message)
+          }
+        } else { // 不需要更新
+          // 如果输入的事件对象, 修正一下输入框显示的值为原本的值
+          if (event) {
+            event.target.value = item.skuNum
+          }
         }
       },
 
@@ -155,6 +163,38 @@
           this.$store.dispatch('getCartList')
         } catch (error) { // 异步请求操作失败了
           alert(error.message)
+        }
+      },
+
+      /* 
+      删除指定购物项
+      */
+      async deleteCartItem (item) {
+        if (window.confirm(`确定删除${item.skuName}吗?`)) {
+          try {
+            // 分发一个异步action
+            await this.$store.dispatch('deleteCartItem', item.skuId)
+            // 异步请求操作成功了
+            this.$store.dispatch('getCartList')
+          } catch (error) { // 异步请求操作失败了
+            alert(error.message)
+          }
+        }
+      },
+
+      /* 
+      删除所有选中的购物项
+      */
+      async deleteCheckedCartItems () {
+        if (window.confirm(`确定删除吗?`)) {
+          try {
+            // 分发一个异步action
+            await this.$store.dispatch('deleteCheckedCartItems')
+            // 异步请求操作成功了
+            this.$store.dispatch('getCartList')
+          } catch (error) { // 异步请求操作失败了
+            alert(error.message)
+          }
         }
       }
     }

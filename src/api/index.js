@@ -81,8 +81,8 @@ export const reqAddToCart = (skuId, skuNumChange) => ajax.post(`/cart/addToCart/
 获取购物车列表
 /api/cart/cartList GET
 */
-export const reqCartLit = () => ajax('/cart/cartList')
-// reqCartLit()
+export const reqCartList = () => ajax('/cart/cartList')
+// reqCartList()
 
 /* 
 切换商品选中状态
@@ -96,7 +96,7 @@ export const reqCheckCartItem = (skuId, isChecked) => ajax(`/cart/checkCart/${sk
 删除购物车商品
 /api/cart/deleteCart/{skuId} DELETE
 */
-export const reqDeleteCartItem = () => ajax.delete(`/cart/deleteCart/${skuId}`)
+export const reqDeleteCartItem = (skuId) => ajax.delete(`/cart/deleteCart/${skuId}`)
 /* export const reqDeleteCartItem = () => ajax({
   url: `/cart/deleteCart/${skuId}`,
   method: 'DELETE'
