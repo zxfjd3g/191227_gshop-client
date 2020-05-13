@@ -22,3 +22,25 @@
     不同点:
         sessionStorage: 保存在浏览器运行的内存中, 刷新浏览器数据还在, 关闭浏览器会自动清除
         localStorage: 保存在浏览器管理的本地文本中, 无论刷新还关闭浏览器还会存在, 不自动清除
+
+## 购物车路由组件ShopCart
+
+## ShopCart组件--动态列表数据
+    api
+    vuex
+    component
+
+## 用于购物车相关请求的标识数据: 用户临时ID / userTempId
+    userTempId的作用:
+        在用户未登陆前的身份标识, 用于识别不同的浏览器访问
+    userTempId的特点
+        它是一个随机唯一的字符串值: 多个客户端之间不相同, 同一个客户端如果产生多次也不同     UUID
+        由浏览器端创建, 每次请求都携带给服务器端
+        一旦产生, 尽量不删除或修改, 可以一直使用
+    userTempId的创建与保存
+        使用UUID库来创建: uuidv4()
+        保存在哪?: 
+            localStorage   ===> 关闭浏览器还存在
+            vuex的state中: 从localStorage中读取uuid值保存到state中  ==> 减少从localStorage读取的次数
+    userTempId使用
+        每次请求都携带上userTempId: 使用axios的请求拦截器

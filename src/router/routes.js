@@ -5,6 +5,7 @@ import Home from '@/pages/Home'
 import Search from '@/pages/Search'
 import Detail from '@/pages/Detail'
 import AddCartSuccess from '@/pages/AddCartSuccess'
+import ShopCart from '@/pages/ShopCart'
 
 
 import Register from '@/pages/Register'
@@ -31,7 +32,10 @@ export default [
     path: '/addcartsuccess',
     component: AddCartSuccess,
   },
-
+  {
+    path: '/shopcart',
+    component: ShopCart,
+  },
 
   {
     path: '/register',
