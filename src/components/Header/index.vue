@@ -5,7 +5,14 @@
       <div class="container">
         <div class="loginList">
           <p>尚品汇欢迎您！</p>
-          <p>
+          
+          <p v-if="userInfo.name">
+            <span>{{userInfo.nickName}}</span>
+            &nbsp;&nbsp;&nbsp;
+            <a href="javascript:">登出</a>
+          </p>
+
+          <p v-else>
             <span>请</span>
             <router-link to="/login">登录</router-link>
             <router-link to="/register" class="register">免费注册</router-link>
@@ -50,6 +57,7 @@
 
 
 <script>
+  import {mapState} from 'vuex'
   export default {
     name: 'Header',
 
@@ -63,6 +71,12 @@
       // 在Header, 通过事件总线对象绑定事件监听来接收消息, 从而可以更新数据
       this.$bus.$on('removeKeyword', () => {
         this.keyword = ''
+      })
+    },
+
+    computed: {
+      ...mapState({
+        userInfo: state => state.user.userInfo
       })
     },
 

@@ -19,3 +19,17 @@ export function getUserTempId () {
   // 返回
   return userTempId
 }
+
+/* 
+保存用户信息到local
+*/
+export function saveUserInfo (userInfo) {
+  localStorage.setItem('USER_INFO_KEY', JSON.stringify(userInfo))
+}
+
+/* 
+读取local中保存的用户信息, 如果没有返回{}
+*/
+export function getUserInfo () {
+  return JSON.parse(localStorage.getItem('USER_INFO_KEY')) || {}
+}
