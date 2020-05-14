@@ -8,32 +8,41 @@
       </h3>
       <div class="content">
         <label>手机号:</label>
-        <input type="text" placeholder="请输入你的手机号">
+        <input type="text" placeholder="请输入你的手机号" v-model="mobile">
         <!-- <span class="error-msg">错误提示信息</span> -->
       </div>
       <div class="content">
         <label>验证码:</label>
-        <input type="text" placeholder="请输入验证码">
-        <img ref="code" src="http://182.92.128.115/api/user/passport/code" alt="code">
+        <input type="text" placeholder="请输入验证码" v-model="code">
+        <!-- img对应的请求跨域: 没有问题, 普通的HTTP, 而是ajax请求 -->
+        <!-- ajax跨域请求才有问题 -->
+        <!-- <img ref="code" src="http://182.92.128.115/api/user/passport/code" alt="code"> -->
+
+        <!-- img对应的请求没有跨域 -->
+        <!-- 浏览器发出的请求是当前前台应用, 
+            当前开发环境包含了一个代理服务器, 对以/api开头的http请求进行请求转发给后台接口处理
+        -->
+        <img ref="code" src="/api/user/passport/code" alt="code" @click="updateCode">
+        <a href="javascrpt:" @click="updateCode">换一个</a>
         <!-- <span class="error-msg">错误提示信息</span> -->
       </div>
       <div class="content">
         <label>登录密码:</label>
-        <input type="text" placeholder="请输入你的登录密码">
+        <input type="text" placeholder="请输入你的登录密码" v-model="password">
         <!-- <span class="error-msg">错误提示信息</span> -->
       </div>
       <div class="content">
         <label>确认密码:</label>
-        <input type="text" placeholder="请输入确认密码">
+        <input type="text" placeholder="请输入确认密码" v-model="password2">
         <!-- <span class="error-msg">错误提示信息</span> -->
       </div>
       <div class="controls">
-        <input name="m1" type="checkbox">
+        <input name="m1" type="checkbox" v-model="isAgree">
         <span>同意协议并注册《尚品汇用户协议》</span>
         <!-- <span class="error-msg">错误提示信息</span> -->
       </div>
       <div class="btn">
-        <button>完成注册</button>
+        <button @click="register">完成注册</button>
       </div>
     </div>
 
@@ -58,7 +67,58 @@
 
 <script>
   export default {
-    name: 'Register'
+    name: 'Register',
+
+    data () {
+      return {
+        mobile: '', // 手机号
+        code: '', // 一次性图形验证码
+        password: '', // 密码
+        password2: '', // 确认密码
+        isAgree: true, // 是否同意协议
+      }
+    },
+
+    methods: {
+      /* 
+      点击更新图形验证码
+      */
+      updateCode (event) {
+        // 重新指定img的src值 ===> 让浏览器自动再发一次请求(并不会导致页面刷新)
+        this.$refs.code.src = '/api/user/passport/code'
+
+        // 在移动端必须要值有变化 ==> 携带一个时间戳(当前时间值)的参数
+        // this.$refs.code.src = '/api/user/passport/code?time='+ Date.now() 
+      },
+
+      /* 
+      注册
+      */
+      async register () {
+        // 1. 取出输入数据
+        const {mobile, code, password, password2, isAgree} = this
+        // 2. 进行前台表单验证, 如果验证不通过, 显示提示
+        if (!isAgree) {
+          alert('必须同意')
+          return
+        } else if (password ==='' || password!==password2) {
+          alert('2次密码必须相同')
+          return
+        }
+        try {
+          // 3. 验证通过, 发注册的请求
+          await this.$store.dispatch('register', {mobile, code, password})
+          // 4.1. 成功了, 跳转到登陆界面
+          this.$router.replace('/login')
+        } catch (error) {
+          this.updateCode()  // 更新图形验证码
+          this.code = '' // 清除输入码验证码
+
+          // 4.2. 失败, 显示相应的提示
+          alert(error.message)
+        }
+      }
+    }
   }
 </script>
 
