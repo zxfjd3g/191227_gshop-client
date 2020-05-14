@@ -133,6 +133,8 @@ export default  {
     删除所有勾选的购物项的异步action
     */
     async deleteCheckedCartItems ({state, dispatch}) {
+
+      // 遍历每个勾选的购物项去分发deleteCartItem
       const promises = state.cartList.reduce((pre, item) => {
         if (item.isChecked===1) {
           pre.push(dispatch('deleteCartItem', item.skuId))

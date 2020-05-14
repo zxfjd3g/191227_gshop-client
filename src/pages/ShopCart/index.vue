@@ -102,7 +102,7 @@
           // return this.cartList.find(item => item.isChecked!==1)===undefined
           // return !this.cartList.find(item => item.isChecked!==1)
           // return !this.cartList.some(item => item.isChecked===0)  // 是否有一个元素满足条件
-          return this.cartList.every(item => item.isChecked===1)  // 是否所有元素都满足条件
+          return this.cartList.every(item => item.isChecked===1) && this.cartList>0 // 是否所有元素都满足条件
         },
         // 监视当前勾选状态的改变
         async set (value) { // value就是当前勾选状态的值true/false
@@ -140,9 +140,10 @@
           } catch (error) { // 异步请求操作失败了
             alert(error.message)
           }
-        } else { // 不需要更新
+        } else { // 不需要更新   输入了一个小于1的值/非数字
           // 如果输入的事件对象, 修正一下输入框显示的值为原本的值
           if (event) {
+            // 让输入框显示原本的值
             event.target.value = item.skuNum
           }
         }

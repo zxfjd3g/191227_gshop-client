@@ -19,21 +19,6 @@ export function reqBaseCategoryList() {
   // return ajax.get('/product/getBaseCategoryList')
 }
 
-/* 
-请求登陆
-/api/user/passport/login
-POST
-*/
-export function reqLogin (mobile, password) {
-  return ajax({
-    method: 'POST',
-    url: '/user/passport/login',
-    data: {mobile, password}
-  })
-
-  // return ajax.post('/user/passport/login', {mobile, password})
-}
-
 /* mock接口对应的接口请求函数 */
 export const reqBanners = () => mockAjax('/banners')
 export const reqFloors = () => mockAjax('/floors')
@@ -97,9 +82,35 @@ export const reqCheckCartItem = (skuId, isChecked) => ajax(`/cart/checkCart/${sk
 /api/cart/deleteCart/{skuId} DELETE
 */
 export const reqDeleteCartItem = (skuId) => ajax.delete(`/cart/deleteCart/${skuId}`)
-/* export const reqDeleteCartItem = () => ajax({
+/* export const reqDeleteCartItem = (skuId) => ajax({
   url: `/cart/deleteCart/${skuId}`,
   method: 'DELETE'
 }) */
 
+/* 
+请求登陆
+/api/user/passport/login
+POST
+*/
+export function reqLogin (mobile, password) {
+  return ajax({
+    method: 'POST',
+    url: '/user/passport/login',
+    data: {mobile, password}
+  })
 
+  // return ajax.post('/user/passport/login', {mobile, password})
+}
+
+/* 
+请求注册
+/api/user/passport/register  POST
+*/
+// export const reqRegister = ({mobile, password, code}) => ajax.post('/user/passport/register', {mobile, password, code})
+export const reqRegister = (userInfo) => ajax.post('/user/passport/register', userInfo)
+
+/* 
+退出登陆
+/api/user/passport/logout
+*/
+export const reqLogout = () => ajax('/user/passport/logout')
