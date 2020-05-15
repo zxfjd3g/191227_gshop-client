@@ -13,8 +13,13 @@ import Carousel from '@/components/Carousel'
 import Pagination from '@/components/Pagination'
 import './mock/mockServer'
 import './validate'
+import * as API from '@/api'  // 引入所有接口请求函数并包装在API对象中
 
 Vue.config.productionTip = false // 去掉不是生产环境的提示
+
+// 让所有组件对象可以直接看到API对象
+Vue.prototype.$API = API
+
 
 // 注册全局组件
 Vue.component('TypeNav', TypeNav)

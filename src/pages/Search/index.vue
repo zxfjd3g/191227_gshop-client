@@ -98,7 +98,7 @@
             :pageSize="options.pageSize"
             :total="productList.total"
             :showPageNo="3"
-            @currentChange="handlCurrentChange"
+            @currentChange="getProductList"
           />
         </div>
       </div>
@@ -225,12 +225,12 @@
       /* 
       当选择改变当前页码时的事件监听回调
       */
-      handlCurrentChange (currentPage) {
+      /* handlCurrentChange (currentPage) {
         // 更新options中pageNo
         this.options.pageNo = currentPage
         // 重新请求获取指定页码的数据显示
         this.$store.dispatch('getProductList', this.options)
-      },
+      }, */
 
       /* 
       判断指定flag的排序项是否是当前项

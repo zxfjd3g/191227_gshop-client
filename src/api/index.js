@@ -114,3 +114,11 @@ export const reqRegister = (userInfo) => ajax.post('/user/passport/register', us
 /api/user/passport/logout
 */
 export const reqLogout = () => ajax('/user/passport/logout')
+
+/* 
+获取我的订单列表
+/api/order/auth/{page}/{limit}  GET
+*/
+export const reqMyOrders = (page, limit) => ajax(`/order/auth/${page}/${limit}`)
+
+// reqMyOrders(1, 3)
