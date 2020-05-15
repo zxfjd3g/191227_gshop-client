@@ -86,7 +86,7 @@
                     <i class="command">已有<span>2000</span>人评价</i>
                   </div>
                   <div class="operate">
-                    <a href="success-cart.html" target="_blank" class="sui-btn btn-bordered btn-danger">加入购物车</a>
+                    <a href="javascript:" class="sui-btn btn-bordered btn-danger" @click="addToCart(goods)">加入购物车</a>
                     <a href="javascript:void(0);" class="sui-btn btn-bordered">收藏</a>
                   </div>
                 </div>
@@ -188,6 +188,28 @@
     },
 
     methods: {
+
+      /* 
+      添加到购物车
+      */
+      async addToCart (goods) {
+        try {
+          await this.$store.dispatch('addToCart3', {skuId:goods.id, skuNum: 1})
+          // 根据当前商品的信息数据整理一个skuInfo对象
+          const skuInfo = {
+            skuDefaultImg: goods.defaultImg,
+            skuName: goods.title,
+            id: goods.id,
+          }
+          window.sessionStorage.setItem('SKU_INFO_KEY', JSON.stringify(skuInfo))
+          this.$router.push({
+            path: '/addcartsuccess',
+            query: {skuNum: 1}
+          })
+        } catch (error) {
+          alert(error.message)
+        }
+      },
 
       /* 
       异步获取指定页码的分页商品数据

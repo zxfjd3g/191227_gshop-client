@@ -81,8 +81,14 @@
         const {mobile, password} = this
         try {
           await this.$store.dispatch('login', {mobile, password})
-          // 登陆成功, 跳转到首页
-          this.$router.replace('/')
+          // 读取出redirect参数
+          const redirect = this.$route.query.redirect
+          // 如果有redirect, 跳转到它指定的路由
+          if (redirect) {
+            this.$router.replace(redirect)
+          } else { // 否则去首页
+            this.$router.replace('/')
+          }
         } catch (error) { // 登陆失败
           alert(error.message)
         }

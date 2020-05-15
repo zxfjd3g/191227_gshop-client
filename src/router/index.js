@@ -86,7 +86,7 @@ router.beforeEach((to, from, next) => { // 在即将跳转到目标前回调
     if (store.state.user.userInfo.name) {
       next()
     } else { // 如果没有登陆, 强制自动跳转到登陆页面
-      next('/login')
+      next('/login?redirect=' + targetPath)
     }
   } else { // 如果目标路由不需要进行登陆检查, 直接放行
     next()

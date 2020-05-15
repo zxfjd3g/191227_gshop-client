@@ -102,7 +102,7 @@
           // return this.cartList.find(item => item.isChecked!==1)===undefined
           // return !this.cartList.find(item => item.isChecked!==1)
           // return !this.cartList.some(item => item.isChecked===0)  // 是否有一个元素满足条件
-          return this.cartList.every(item => item.isChecked===1) && this.cartList>0 // 是否所有元素都满足条件
+          return this.cartList.every(item => item.isChecked===1) && this.cartList.length>0 // 是否所有元素都满足条件
         },
         // 监视当前勾选状态的改变
         async set (value) { // value就是当前勾选状态的值true/false
