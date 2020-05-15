@@ -12,6 +12,7 @@ import TypeNav from '@/components/TypeNav'
 import Carousel from '@/components/Carousel'
 import Pagination from '@/components/Pagination'
 import './mock/mockServer'
+import './validate'
 
 Vue.config.productionTip = false // 去掉不是生产环境的提示
 

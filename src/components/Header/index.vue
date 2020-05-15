@@ -9,7 +9,7 @@
           <p v-if="userInfo.name">
             <span>{{userInfo.nickName}}</span>
             &nbsp;&nbsp;&nbsp;
-            <a href="javascript:">登出</a>
+            <a href="javascript:" @click="logout">登出</a>
           </p>
 
           <p v-else>
@@ -81,6 +81,12 @@
     },
 
     methods: {
+      logout () {
+        if (window.confirm('确定退出吗?')) {
+          this.$store.dispatch('logout')
+        }
+      },
+
       search () {
         // 编程式路由导航(跳转)
           // 字符串模式
