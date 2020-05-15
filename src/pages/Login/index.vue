@@ -88,6 +88,36 @@
         }
         
       }
+    },
+
+    /* 
+    beforeRouteEnter (to, from, next) { 
+      // 如果还没有登陆, 放行
+      if (!this.$store.state.user.userInfo.token) {  
+      // 报错: Cannot read property '$store' of undefined
+      // 原因: 在组件对象创建前调用, this不是组件对象
+        next()
+      } else {
+        // 如果已经登陆, 跳转到首页
+        next('/')
+      }
+    } */
+    beforeRouteEnter (to, from, next) { 
+
+      // 给next()传入一个回调函数, 那回调函数在组件对象创建后自动调用, 且会传入创建的组件对象
+      next((component) => {
+        // 如果还没有登陆, 放行
+        if (!component.$store.state.user.userInfo.token) {  
+        // 报错: Cannot read property '$store' of undefined
+        // 原因: 在组件对象创建前调用, this不是组件对象
+          next()
+        } else {
+          // 如果已经登陆, 跳转到首页
+          next('/')
+        }
+      })
+
+      
     }
   }
 </script>

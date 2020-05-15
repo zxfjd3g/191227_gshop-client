@@ -17,6 +17,7 @@ import GroupBuy from '@/pages/Center/GroupBuy'
 
 import Register from '@/pages/Register'
 import Login from '@/pages/Login'
+import store from '@/store'
 
 export default [
   {
@@ -89,6 +90,16 @@ export default [
     component: Login,
     meta: {
       isHideFooter: true
-    }
+    },
+/* 
+    beforeEnter: (to, from, next) => { // 路由前置守卫
+      // 如果还没有登陆, 放行
+      if (!store.state.user.userInfo.token) {
+        next()
+      } else {
+        // 如果已经登陆, 跳转到首页
+        next('/')
+      }
+    } */
   },
 ]
