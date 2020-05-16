@@ -14,7 +14,7 @@
         未登陆用户(浏览器)的标识数据
         浏览器端初始时生成并保存在浏览器端
         每次请求时自动携带: userTempId: uuid字符串值
-    teoken: 
+    token: 
         已登陆用户的标识数据
         登陆请求成功时, 服务器端生成并返回给浏览器端保存
         每次请求时(登陆后)自动携带: token: 字符串值(内部包含了用户的id和过期的时间)
@@ -36,7 +36,7 @@
             前置: 监视任意任意路由跳转, 在准备跳转到目标路由时回调
                 router.beforeEach((to, from, next) => {})
                 to: 目标路由对象
-                from: 当前路由对象
+                from: 当前路由对象     router.currentRoute
                 next: 用于控制路由跳转的函数
                     不行执行next(): 中断跳转
                     next(): 放行跳转
@@ -48,6 +48,7 @@
         组件守卫
             进入(前置): 监视跳转到当前路由, 在准备跳转到当前路由时回调
                 beforeRouteEnter (to, from, next) { },  // 在回调函数中this不是当前组件对象, 还没有创建
+                    next((component) => {})  // 指定的回调函数在组件对象创建后自动执行, 且传入了组件对象
             更新
             离开
 
@@ -71,6 +72,8 @@
 ## 我的订单列表
     定义获取订单分页列表的API函数
     在组件中调用接口请求函数获取指定页码的分页列表数据
+        Vue.prototype.$API = API
+        this.$API.reqOrders()
     动态显示分页列表与分页界面(Pagination)
         给Pagination绑定的页码改变的监听回调函数可以直接是getOrders
         列表的某些列只显示一行: 通过v-if="index====0"只显示第一行
