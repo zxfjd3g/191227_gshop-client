@@ -7,8 +7,13 @@
           <span class="success-info">订单提交成功，请您及时付款，以便尽快为您发货~~</span>
         </h4>
         <div class="paymark">
-          <span class="fl">请您在提交订单<em class="orange time">4小时</em>之内完成支付，超时订单会自动取消。订单号：<em>145687</em></span>
-          <span class="fr"><em class="lead">应付金额：</em><em class="orange money">￥17,654</em></span>
+          <span class="fl">
+            请您在提交订单
+            <em class="orange time">4小时</em>
+            之内完成支付，超时订单会自动取消。订单号：
+            <em>{{orderId}}</em>
+          </span>
+          <span class="fr"><em class="lead">应付金额：</em><em class="orange money">￥{{payInfo.totalFee}}</em></span>
         </div>
       </div>
       <div class="checkout-info">
@@ -65,7 +70,7 @@
         <div class="hr"></div>
 
         <div class="submit">
-          <router-link class="btn" to="/paysuccess">立即支付</router-link>
+          <a href="javascript:" class="btn" @click="pay">立即支付</a>
         </div>
         <div class="otherpay">
           <div class="step-tit">
@@ -82,8 +87,36 @@
 </template>
 
 <script>
+  import QRCode from 'qrcode'
+
   export default {
     name: 'Pay',
+    props: ['orderId'],
+
+    computed: {
+      payInfo () {
+        return this.$store.state.order.payInfo
+      }
+    },
+
+    mounted () {
+      this.$store.dispatch('getPayInfo', this.orderId)
+    },
+
+    methods: {
+      pay () {
+        // 使用qrcode生成二维码图片
+        QRCode.toDataURL(this.payInfo.codeUrl)
+          .then(url => { // url就是二维码图片
+            console.log(url)
+          })
+          .catch(err => {
+            alert('生成支付二维码失败!')
+          })
+
+        // 显示支付二维码界面
+      }
+    }
   }
 </script>
 

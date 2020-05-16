@@ -8,3 +8,8 @@
     api
     vuex
     component
+
+## 支付
+    api
+    vuex
+    component
