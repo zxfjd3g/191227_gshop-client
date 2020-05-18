@@ -1,10 +1,32 @@
 <template>
   <div>
     <h2>深入v-model</h2>
-
-    <input type="text">
-    <span>xxx</span>
+    <input type="text" v-model="name1">
+    <span>{{name1}}</span>
     <br>
+    <br>
+    <!-- 
+      原生input上的v-model的本质:  动态的value属性与原生input事件监听
+        <input type="text" :value="name2" @input="name2=$event.target.value">
+    -->
+    <input type="text" :value="name2" @input="name2=$event.target.value">
+    <span>{{name2}}</span>
+    <br>
+    <br>
+
+    <!-- 
+      组件标签上的v-model的本质:  动态的value属性与自定义input事件监听
+    -->
+
+    <CustomInput v-model="name3"/>
+    <span>{{name3}}</span>
+    <br>
+    <br>
+
+    <CustomInput :value="name4" @input="name4=$event"/>  <!-- $event是$emit('input', 'xxx') -->
+    <span>{{name4}}</span>
+
+    
   </div>
 </template>
 
@@ -12,6 +34,16 @@
   import CustomInput from './CustomInput.vue'
   export default {
     name: 'ModelTest',
+
+    data () {
+      return {
+        name1: 'atguigu',
+        name2: 'xiaoxiao',
+        name3: 'mingming',
+        name4: 'huahua'
+      }
+    },
+
     components: {
       CustomInput
     }

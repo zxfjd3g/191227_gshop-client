@@ -15,9 +15,27 @@
     <button @click="test1($event)">测试绑定原生DOM事件监听</button>
     <br>
     <br>
-
     <Event1 @click.native="test2"/>
 
+    <br>
+    <br>
+    <!-- 
+    vue自定义事件
+      绑定vue自定义事件监听
+        1. 只能在组件标签上绑定
+        2. 事件名是任意的, 可以与原生DOM事件名相同
+      只当执行$emit('自定义事件名', data)时分发自定义事件, 才会触发自定义事件监听函数调用
+      $event: 就是分发自定义事件时指定的data数据
+      $event可以是任意类型, 甚至可以没有
+    -->
+    <Event2 @click="test3" @xxx="test4"/>
+    <br>
+    <br>
+    <Event2 @click="test3($event)" @xxx="test4($event)"/>
+
+    <!-- 
+      vue的自定义事件用来: 用来实现子向父组件通信, 功能相当于函数类型的props
+    -->
   </div>
 </template>
 
@@ -40,6 +58,14 @@
 
      test2 (event) {
        alert('test2 --' + event.target.innerHTML)
+     },
+
+     test3 (data) {
+       alert('test3()--' + data)
+     },
+
+     test4 (data) {
+       alert('test4()--' + data.name)
      }
     }
   }
