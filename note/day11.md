@@ -51,3 +51,17 @@
         import(modulePath): 动态import引入模块, 被引入的模块会被单独打包
         组件配置的是一个函数, 函数中通过import动态加载模块并返回, 
         初始时函数不会执行, 第一次访问对应的路由才会执行, 也就是说只有一次请求对应的路由路径才会请求加载单独打包的js
+
+## 图片懒加载
+    理解:
+        还没有加载得到目标图片时, 先显示loading图片
+        在<img>进入可视范围才加载请求目标图片
+    编码:
+        使用vue-lazy实现
+        下载: npm install -S vue-lazy
+        import VueLazyload from 'vue-lazyload'
+        // 配置vue的插件
+        Vue.use(VueLazyload, { // 内部自定义一个指令: lazy
+            loading,  // 配置loading图片
+        })
+        <img v-lazy="goods.defaultImg" />

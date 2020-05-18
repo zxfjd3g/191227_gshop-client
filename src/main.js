@@ -15,6 +15,13 @@ import './mock/mockServer'
 import './validate'
 import * as API from '@/api'  // 引入所有接口请求函数并包装在API对象中
 import './elements'
+import VueLazyload from 'vue-lazyload'
+import loading from '@/assets/images/loading.gif'
+
+// 配置vue的插件
+Vue.use(VueLazyload, { // 内部自定义一个指令: lazy
+  loading,  // 配置loading图片
+})
 
 Vue.config.productionTip = false // 去掉不是生产环境的提示
 
