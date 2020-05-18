@@ -25,7 +25,6 @@
 
     <CustomInput :value="name4" @input="name4=$event"/>  <!-- $event是$emit('input', 'xxx') -->
     <span>{{name4}}</span>
-
     
   </div>
 </template>
