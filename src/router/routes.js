@@ -208,4 +208,12 @@ export default [
       }
     ],
   },
+
+  {
+    path: '/scoped',
+    component: () => import('@/pages/Scoped/Test1'),
+    meta: {
+      isHideFooter: true
+    }
+  },
 ]
