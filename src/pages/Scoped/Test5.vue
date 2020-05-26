@@ -1,7 +1,5 @@
 <template>
-  <Test6>
-    <h2>xxxxx</h2>
-  </Test6>
+  <div class="t2">Test5</div>
 </template>
 
 <script>

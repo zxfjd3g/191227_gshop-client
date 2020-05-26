@@ -21,6 +21,19 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less" scoped>
+  .test2 {
+    /deep/ .t4 {
+      color: blue;
+    }
+  }
+</style>
 
+<style scoped>
+  h2 {
+    color: red;
+  }
+  .test2 >>> .t2 {
+    color: green
+  } 
 </style>
